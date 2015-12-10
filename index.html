@@ -24,18 +24,24 @@
                     .attr("height", browserHeight)
                     .style("background", "grey");
 
-      var circles = canvas.selectAll("circle")
+      // Define the data for the node groups
+      var nodeElements = canvas.selectAll("node")
                     .data(data) // binds data to circles
-                    .enter() // imports data to circle object
-                      .append("circle")
-                      .attr("r", 20) // goes through all dataElements and returns data
-                      .attr("cx", function(d) { return (d.Geboren * xScale) - (startDate * xScale);})
-                      .attr("cy", 500);
+
+      // Create and place the "blocks" containing the circle and the text
+      var nodeBlock = nodeElements.enter()
+                    .append("g")
+                    .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";})
+
+      var circles = nodeBlock.append("circle")
+                    .attr("r", 20)
+
+      var labels = nodeBlock.append("text")
+                    .attr("dx", function(d){ return -20 })
+                    .attr("fill", "white")
+                    .text(function(d){ return d.Name })
+
     })
-
-
-
-
   </script>
 </body>
 </html>
