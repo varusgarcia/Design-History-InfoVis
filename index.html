@@ -2,23 +2,34 @@
 <head>
   <title>Design Geschichte InfoVis</title>
   <script src="http://d3js.org/d3.v3.min.js"></script>
+  <style>
+   body{
+     margin: 0;
+     padding: 0;
+   }
+  </style>
 </head>
 
 <body>
   <script>
-    d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data.json", function (data){
+      d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data.json", function (data){
+
+      var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
       var startDate = 1850;
+      var xScale = 30;
+
       var canvas = d3.select("body")
                     .append("svg")
                     .attr("width", 5000)
-                    .attr("height", 5000);
+                    .attr("height", browserHeight)
+                    .style("background", "grey");
 
       var circles = canvas.selectAll("circle")
                     .data(data) // binds data to circles
                     .enter() // imports data to circle object
                       .append("circle")
-                      .attr("r", function(d) {return d.Geboren/100;}) // goes through all dataElements and returns data
-                      .attr("cx", function(d) { return d.Geboren-startDate;})
+                      .attr("r", 20) // goes through all dataElements and returns data
+                      .attr("cx", function(d) { return (d.Geboren * xScale) - (startDate * xScale);})
                       .attr("cy", 500);
     })
 
