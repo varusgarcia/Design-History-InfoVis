@@ -1,0 +1,30 @@
+<html>
+<head>
+  <title>Design Geschichte InfoVis</title>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <script>
+    d3.json("test-db/data.json", function (data){
+
+      var canvas = d3.select("body")
+                    .append("svg")
+                    .attr("width", 500)
+                    .attr("height", 500);
+
+      var circles = canvas.selectAll("circle")
+                    .data(dataArray) // binds data to circles
+                    .enter() // imports data to circle object
+                      .append("circle")
+                      .attr("r", function(d) {return d.Geboren/10;}) // goes through all dataElements and returns data
+                      .attr("cx", 100)
+                      .attr("cy", function(d, index) { return index * 100 +10;});
+    })
+
+
+
+
+  </script>
+</body>
+</html>
