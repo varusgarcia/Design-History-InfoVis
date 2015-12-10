@@ -6,20 +6,20 @@
 
 <body>
   <script>
-    d3.json("test-db/data.json", function (data){
-
+    d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data.json", function (data){
+      var startDate = 1850;
       var canvas = d3.select("body")
                     .append("svg")
-                    .attr("width", 500)
-                    .attr("height", 500);
+                    .attr("width", 5000)
+                    .attr("height", 5000);
 
       var circles = canvas.selectAll("circle")
-                    .data(dataArray) // binds data to circles
+                    .data(data) // binds data to circles
                     .enter() // imports data to circle object
                       .append("circle")
-                      .attr("r", function(d) {return d.Geboren/10;}) // goes through all dataElements and returns data
-                      .attr("cx", 100)
-                      .attr("cy", function(d, index) { return index * 100 +10;});
+                      .attr("r", function(d) {return d.Geboren/100;}) // goes through all dataElements and returns data
+                      .attr("cx", function(d) { return d.Geboren-startDate;})
+                      .attr("cy", 500);
     })
 
 
