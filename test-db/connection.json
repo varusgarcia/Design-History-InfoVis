@@ -1,0 +1,234 @@
+{"connection":[{
+    "ID 1":"#0007",
+    "ID 2":"#0010",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0002",
+    "ID 2":"#0003",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Julian Scheidsteger"
+  },
+  {
+    "ID 1":"#0014",
+    "ID 2":"#0010",
+    "Verbin.quali":3,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alvaro Garcia"
+  },
+  {
+    "ID 1":"#0014",
+    "ID 2":"#0002",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Daniel Martin"
+  },
+  {
+    "ID 1":"#0018",
+    "ID 2":"#0008",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Partner",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Valentin Dragomirescu"
+  },
+  {
+    "ID 1":"#0005",
+    "ID 2":"#0011",
+    "Verbin.quali":3,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0005",
+    "ID 2":"#0008",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0021",
+    "ID 2":"#0004",
+    "Verbin.quali":3,
+    "Verbi.rolle":"Partner",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0017",
+    "ID 2":"#0009",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0004",
+    "ID 2":"#0008",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0013",
+    "ID 2":"#0014",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0015",
+    "ID 2":"#0009",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0003",
+    "ID 2":"#0004",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0004",
+    "ID 2":"#0015",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0018",
+    "ID 2":"#0015",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0009",
+    "ID 2":"#0002",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0009",
+    "ID 2":"#0017",
+    "Verbin.quali":3,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0011",
+    "ID 2":"#0006",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0019",
+    "ID 2":"#0008",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0018",
+    "ID 2":"#0009",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Partner",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0018",
+    "ID 2":"#0008",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0017",
+    "ID 2":"#0019",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0016",
+    "ID 2":"#0002",
+    "Verbin.quali":3,
+    "Verbi.rolle":"Partner",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0017",
+    "ID 2":"#0002",
+    "Verbin.quali":3,
+    "Verbi.rolle":"Partner",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0002",
+    "ID 2":"#0018",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0004",
+    "ID 2":"#0007",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Kollege",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0021",
+    "ID 2":"#0010",
+    "Verbin.quali":2,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0006",
+    "ID 2":"#0019",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Partner",
+    "Quelle":"http://agweiss.com",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID 1":"#0010",
+    "ID 2":"#0019",
+    "Verbin.quali":1,
+    "Verbi.rolle":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  }
+]
+}
