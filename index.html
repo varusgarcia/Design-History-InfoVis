@@ -30,26 +30,20 @@
                     .attr("id", function (d){ return d.ID})
                     .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";})
 
+      // CIRLCES
       var circles = nodeBlock.append("circle")
                     .attr("r", 50)
 
+      // TEXT LABELS
       var labels = nodeBlock.append("text")
-                    .attr("dx", function(d){ return -20 })
+                    .attr("dy", function(d){ return 30 })
                     .attr("fill", "white")
+                    .attr("text-anchor", "middle")
                     .text(function(d){ return d.Name })
 
       d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
 
-        //var currentX = d3.transform(d3.select(this).attr("transform")).translate[0];
-
-        //var g = d3.select("svg").selectAll("#id01")
-
-        //var currentX = d3.transform(g.attr("transform")).translate[0]
-        //var currentY = d3.transform(g.attr("transform")).translate[1]
-
-        //g.attr("transform", "translate("+ (currentX + 100)+",0)")
-
-
+        // draw lines between nodes based on connection ID's
         var line = canvas.selectAll("line")
                     .data(connection)
                     .enter()
@@ -75,12 +69,14 @@
                         return currentY
                       })
                       .attr("stroke", "green")
-                      .attr("stroke-width", 2);
-
-
-
+                      .attr("stroke-width", 2)
       })
 
+      d3.selectAll("g")
+          .on("mouseover", function(){
+            // move to front
+            this.parentNode.appendChild(this);
+          })
     })
   </script>
 </body>
