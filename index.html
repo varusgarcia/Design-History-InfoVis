@@ -42,6 +42,7 @@
       // Create and place the "blocks" containing the circle and the text
       var nodeBlock = nodeElements.enter()
                     .append("g")
+                    .attr("id", function (d){ return d.ID})
                     .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";})
 
       var circles = nodeBlock.append("circle")
@@ -51,6 +52,33 @@
                     .attr("dx", function(d){ return -20 })
                     .attr("fill", "white")
                     .text(function(d){ return d.Name })
+
+      d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
+
+        //var currentX = d3.transform(d3.select(this).attr("transform")).translate[0];
+
+        var g = d3.select("svg").selectAll("#id01")
+
+        var currentX = d3.transform(g.attr("transform")).translate[0]
+        var currentY = d3.transform(g.attr("transform")).translate[1]
+
+        //g.attr("transform", "translate("+ (currentX + 100)+",0)")
+
+
+        var line = canvas.append("line")
+                    //.data(connection)
+                    //.enter()
+                    //.append("line")
+                      .attr("x1", currentX)
+                      .attr("y1", currentY)
+                      .attr("x2", 100)
+                      .attr("y2", 100)
+                      .attr("stroke", "green")
+                      .attr("stroke-width", 20);
+
+
+
+      })
 
     })
   </script>
