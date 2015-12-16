@@ -1,6 +1,6 @@
  [
    {
-    "ID":"a01",
+    "ID":"id01",
     "Vorname":"Otl",
     "Name":"Aicher",
     "Geboren":"1920",
@@ -11,7 +11,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a02",
+    "ID":"id02",
     "Vorname":"Rudi",
     "Name":"Högner",
     "Geboren":"1960",
@@ -22,7 +22,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a03",
+    "ID":"id03",
     "Vorname":"Wilhelm",
     "Name":"Braun-Feldweg",
     "Geboren":"1910",
@@ -33,7 +33,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a04",
+    "ID":"id04",
     "Vorname":"Günter",
     "Name":"Kupetz",
     "Geboren":"1924",
@@ -44,7 +44,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a05",
+    "ID":"id05",
     "Vorname":"Herbert",
     "Name":"Oestreich",
     "Geboren":"1879",
@@ -55,7 +55,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a06",
+    "ID":"id06",
     "Vorname":"Peter",
     "Name":"Raacke",
     "Geboren":"1907",
@@ -66,7 +66,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a07",
+    "ID":"id07",
     "Vorname":"Horst",
     "Name":"W. Rittel",
     "Geboren":"1892",
@@ -77,7 +77,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a08",
+    "ID":"id08",
     "Vorname":"Mia",
     "Name":"Seeger",
     "Geboren":"1965",
@@ -88,7 +88,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"a09",
+    "ID":"id09",
     "Vorname":"Wilhelm",
     "Name":"Wagenfeld",
     "Geboren":"1982",
@@ -99,7 +99,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"10",
+    "ID":"id10",
     "Vorname":"Otl",
     "Name":"Aicher",
     "Geboren":"1921",
@@ -110,7 +110,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"11",
+    "ID":"id11",
     "Vorname":"Rudi",
     "Name":"Högner",
     "Geboren":"1955",
@@ -121,7 +121,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"12",
+    "ID":"id12",
     "Vorname":"Wilhelm",
     "Name":"Braun-Feldweg",
     "Geboren":"1899",
@@ -132,7 +132,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"13",
+    "ID":"id13",
     "Vorname":"Günter",
     "Name":"Kupetz",
     "Geboren":"1879",
@@ -143,7 +143,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"14",
+    "ID":"id14",
     "Vorname":"Herbert",
     "Name":"Oestreich",
     "Geboren":"1943",
@@ -154,7 +154,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"15",
+    "ID":"id15",
     "Vorname":"Peter",
     "Name":"Raacke",
     "Geboren":"1930",
@@ -165,7 +165,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"16",
+    "ID":"id16",
     "Vorname":"Horst",
     "Name":"W. Rittel",
     "Geboren":"1897",
@@ -176,7 +176,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"17",
+    "ID":"id17",
     "Vorname":"Mia",
     "Name":"Seeger",
     "Geboren":"1953",
@@ -187,7 +187,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"18",
+    "ID":"id18",
     "Vorname":"Wilhelm",
     "Name":"Wagenfeld",
     "Geboren":"1975",
@@ -198,7 +198,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"19",
+    "ID":"id19",
     "Vorname":"Otl",
     "Name":"Aicher",
     "Geboren":"1976",
@@ -209,7 +209,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"20",
+    "ID":"id20",
     "Vorname":"Rudi",
     "Name":"Högner",
     "Geboren":"1977",
@@ -220,7 +220,7 @@
     "Verfasser":"Blau Bertram"
   },
   {
-    "ID":"21",
+    "ID":"id21",
     "Vorname":"Wilhelm",
     "Name":"Braun-Feldweg",
     "Geboren":"1978",
