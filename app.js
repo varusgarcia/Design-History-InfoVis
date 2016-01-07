@@ -3,6 +3,8 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   var startDate = 1850;
   var xScale = 30;
+  var circleRadius = 60;
+  var circleStrokeWidth = 3;
 
   var canvas = d3.select("body")
                 .append("svg")
@@ -20,10 +22,45 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .attr("id", function (d){ return d.ID})
                 .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";})
 
+  // CIRCLE IMAGE
+  var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
+  var nodeImage = imgdefs.append("pattern")
+                        .attr("id", "nodeImage")
+                        .attr("height", 1)
+                        .attr("width", 1)
+                        .attr("x", "0")
+                        .attr("y", "0")
+
+  nodeImage.append("image")
+     .attr("x", 0)
+     .attr("y", 0)
+     .attr("height", circleRadius*2)
+     .attr("width", circleRadius*2)
+     .attr("xlink:href", "test-db/images/otl_aicher.png")
+
   // CIRLCES
   var circles = nodeBlock.append("circle")
-                .attr("r", 50)
-                .attr("fill", "#00729c")
+                .attr("r", circleRadius)
+                .attr("fill", "url(#nodeImage)")
+                .attr("stroke", "#00729c")
+                .attr("stroke-width", circleStrokeWidth)
+
+  // TEXT BACKGROUND
+  var labelsBackgroundMask = nodeBlock.append("clipPath")
+                                        // make an id unique to this node
+                                        .attr('id', "clipMask")
+                                        // use the rectangle to specify the clip path itself
+                                        .append('rect')
+                                          .attr("x", -circleRadius)
+                                          .attr("y", 10)
+                                          .attr("width", circleRadius*2)
+                                          .attr("height", circleRadius);
+
+  var labelsBackground = nodeBlock.append("circle")
+                                    .attr("clip-path", "url(#clipMask)")
+                                    .attr("r", circleRadius)
+                                    .attr("fill", "black")
+                                    .attr("opacity", "0.8")
 
   // TEXT LABELS
   var labels = nodeBlock.append("text")
@@ -70,7 +107,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
   d3.selectAll("g")
       .on("mouseover", function () {
-          d3.select(this).select("circle").attr("r", 60)
+          d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2)
           return tooltip.style("visibility", "visible");
           })
       .on("mousemove", function () {
@@ -80,7 +117,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
               .style("left", (d3.event.pageX + 16) + "px");
       })
       .on("mouseout", function () {
-        d3.select(this).select("circle").attr("r", 50)
+        d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
       return tooltip.style("visibility", "hidden");
   });
 
