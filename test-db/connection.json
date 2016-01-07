@@ -1,232 +1,232 @@
 [{
     "ID1":"id07",
     "ID2":"id10",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Schüler",
+    "Quality":1,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id02",
     "ID2":"id03",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Kollege",
+    "Quality":1,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Julian Scheidsteger"
   },
   {
     "ID1":"id14",
     "ID2":"id10",
-    "Verbin.quali":3,
-    "Verbi.rolle":"Schüler",
+    "Quality":3,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alvaro Garcia"
   },
   {
     "ID1":"id14",
     "ID2":"id02",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Kollege",
+    "Quality":1,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Daniel Martin"
   },
   {
     "ID1":"id18",
     "ID2":"id08",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Partner",
+    "Quality":2,
+    "Role":"Partner",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Valentin Dragomirescu"
   },
   {
     "ID1":"id05",
     "ID2":"id11",
-    "Verbin.quali":3,
-    "Verbi.rolle":"Kollege",
+    "Quality":3,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id05",
     "ID2":"id08",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Schüler",
+    "Quality":2,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id21",
     "ID2":"id04",
-    "Verbin.quali":3,
-    "Verbi.rolle":"Partner",
+    "Quality":3,
+    "Role":"Partner",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id17",
     "ID2":"id09",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Schüler",
+    "Quality":1,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id04",
     "ID2":"id08",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Schüler",
+    "Quality":2,
+    "Role":"Schüler",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id13",
     "ID2":"id14",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Kollege",
+    "Quality":1,
+    "Role":"Kollege",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id15",
     "ID2":"id09",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Kollege",
+    "Quality":2,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id03",
     "ID2":"id04",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Kollege",
+    "Quality":2,
+    "Role":"Kollege",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id04",
     "ID2":"id15",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Kollege",
+    "Quality":2,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id18",
     "ID2":"id15",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Schüler",
+    "Quality":1,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id09",
     "ID2":"id02",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Schüler",
+    "Quality":2,
+    "Role":"Schüler",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id09",
     "ID2":"id17",
-    "Verbin.quali":3,
-    "Verbi.rolle":"Kollege",
+    "Quality":3,
+    "Role":"Kollege",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id11",
     "ID2":"id06",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Kollege",
+    "Quality":1,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id19",
     "ID2":"id08",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Kollege",
+    "Quality":2,
+    "Role":"Kollege",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id18",
     "ID2":"id09",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Partner",
+    "Quality":2,
+    "Role":"Partner",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id18",
     "ID2":"id08",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Kollege",
+    "Quality":2,
+    "Role":"Kollege",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id17",
     "ID2":"id19",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Kollege",
+    "Quality":1,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id16",
     "ID2":"id02",
-    "Verbin.quali":3,
-    "Verbi.rolle":"Partner",
+    "Quality":3,
+    "Role":"Partner",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id17",
     "ID2":"id02",
-    "Verbin.quali":3,
-    "Verbi.rolle":"Partner",
+    "Quality":3,
+    "Role":"Partner",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id02",
     "ID2":"id18",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Schüler",
+    "Quality":1,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id04",
     "ID2":"id07",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Kollege",
+    "Quality":2,
+    "Role":"Kollege",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id21",
     "ID2":"id10",
-    "Verbin.quali":2,
-    "Verbi.rolle":"Schüler",
+    "Quality":2,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id06",
     "ID2":"id19",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Partner",
+    "Quality":1,
+    "Role":"Partner",
     "Quelle":"http://agweiss.com",
     "Verfasser":"Alexander Käßner"
   },
   {
     "ID1":"id10",
     "ID2":"id19",
-    "Verbin.quali":1,
-    "Verbi.rolle":"Schüler",
+    "Quality":1,
+    "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
   }
