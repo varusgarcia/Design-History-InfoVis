@@ -38,7 +38,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
     var line = canvas.selectAll("line")
                 .data(connection)
                 .enter()
-                .append("line")
+                .insert("line", ":first-child")
                   .attr("x1", function (d){
                     var g = d3.select("svg").selectAll("#"+d.ID1)
                     var currentX = d3.transform(g.attr("transform")).translate[0]
