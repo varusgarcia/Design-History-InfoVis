@@ -6,6 +6,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
   var canvas = d3.select("body")
                 .append("svg")
+                .attr("id", "chartSVG")
                 .attr("width", 5000)
                 .attr("height", browserHeight)
 
