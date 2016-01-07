@@ -62,15 +62,27 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                   .attr("stroke", "white")
                   .attr("stroke-width", function (d){ return d.Quality*2 })
                   .style("opacity", "0.2")
-                  .on("mouseover", function(){ d3.select(this).style("opacity", "1")})
-                  .on("mouseout", function(){ d3.select(this).style("opacity", "0.2")});
+                  .on("mouseover", function(){ return d3.select(this).style("opacity", "1")})
+                  .on("mouseout", function(){ return d3.select(this).style("opacity", "0.2")});
   })
 
+  var tooltip = d3.select("div.tooltip");
+
   d3.selectAll("g")
-      .on("mouseover", function(){
-        // move to front
-        this.parentNode.appendChild(this);
-      });
+      .on("mouseover", function () {
+          d3.select(this).select("circle").attr("r", 60)
+          return tooltip.style("visibility", "visible");
+          })
+      .on("mousemove", function () {
+          //console.log(d3.event);
+          return tooltip
+              .style("top", (d3.event.pageY + 16) + "px")
+              .style("left", (d3.event.pageX + 16) + "px");
+      })
+      .on("mouseout", function () {
+        d3.select(this).select("circle").attr("r", 50)
+      return tooltip.style("visibility", "hidden");
+  });
 
   /*
   // Returns an event handler for fading a given chord group.
