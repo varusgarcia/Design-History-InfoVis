@@ -11,7 +11,7 @@
     <div id="headline"><img id="headline-logo" src="images/fhp-logo_mini.png"/>Ein Projekt der FH Potsdam</div>
     <a href="">Über das Projekt</a>
   </nav>
-  
+
   <script>
       d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data.json", function (data){
 
@@ -74,7 +74,10 @@
                         return currentY
                       })
                       .attr("stroke", "white")
-                      .attr("stroke-width", 2)
+                      .attr("stroke-width", function (d){ return d.Quality*2 })
+                      .style("opacity", "0.2")
+                      .on("mouseover", function(){ d3.select(this).style("opacity", "1")})
+                      .on("mouseout", function(){ d3.select(this).style("opacity", "0.2")});
       })
 
       d3.selectAll("g")
