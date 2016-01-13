@@ -3,7 +3,14 @@
   <meta charset="utf-8">
   <title>Design Geschichte InfoVis</title>
   <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <link rel="stylesheet" href="main.css">
+  <script>
+  //hide loading animation when page is loaded
+    $(window).load(function(){
+      $('#loading-screen').fadeOut(1000);
+    });
+</script>
 </head>
 
 <body>
@@ -12,9 +19,11 @@
     <a href="">Über das Projekt</a>
   </nav>
 
-  <!--<div id="loading-screen">
+  <div id="loading-screen">
     <div id="box"><img id="indicator" src="images/loading-indicator.png"/></div>
-  </div>-->
+  </div>
+
+
 
   <!-- Here comes the magic -->
   <script src="app.js"></script>
