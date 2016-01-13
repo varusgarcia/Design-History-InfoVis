@@ -86,6 +86,7 @@ nav a:hover {
 svg {
   background: none;
   z-index: 1;
+  cursor: all-scroll;
 }
 
 svg circle, line {

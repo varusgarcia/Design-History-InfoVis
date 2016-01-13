@@ -11,6 +11,8 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .attr("id", "chartSVG")
                 .attr("width", 5000)
                 .attr("height", browserHeight)
+                .call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+                .append("g");
 
   // Define the data for the node groups
   var nodeElements = canvas.selectAll("node")
@@ -130,4 +132,8 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       .transition()
         .style("opacity", opacity);
   }};*/
+
+  function zoom() {
+  canvas.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
 });
