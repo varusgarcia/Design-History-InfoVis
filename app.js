@@ -14,6 +14,23 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
                 .append("g");
 
+  // YEAR AXIS
+  //Create the Scale we will use for the Axis
+  var axisScale = d3.time.scale()
+                    .domain([new Date(startDate, 0, 1), new Date(2016, 0, 1)])
+                    .range([0,4920]);
+
+  //Create the Axis
+  var yearsAxis = d3.svg.axis()
+                    .ticks(20)
+                    .scale(axisScale);
+
+  //Create a group Element for the Axis elements and call the xAxis function
+  var yearsAxisGroup = canvas.append("g")
+                    .attr('class', 'yearsAxis')
+                    .attr("transform", "translate(40,"+(browserHeight-50)+")")
+                    .call(yearsAxis);
+
   // Define the data for the node groups
   var nodeElements = canvas.selectAll("node")
                 .data(data) // binds data to circles

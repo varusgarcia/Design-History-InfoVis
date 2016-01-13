@@ -93,6 +93,25 @@ svg circle, line {
   cursor: pointer;
 }
 
+svg .yearsAxis {
+  opacity: 0.1;
+}
+
+svg .domain {
+  fill: none;
+  stroke: white;
+  stroke-width: 1.5px;
+}
+
+svg .yearsAxis line {
+  fill: none;
+  stroke: white;
+}
+
+svg .yearsAxis text {
+  fill: white;
+}
+
 div.tooltip {
     visibility:hidden;
     padding: 10px 15px;
