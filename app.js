@@ -40,6 +40,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var nodeBlock = nodeElements.enter()
                 .append("g")
                 .attr("id", function (d){ return d.ID})
+                .attr('class', 'nodes')
                 .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";})
 
   // CIRCLE IMAGE
@@ -127,7 +128,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var tooltip = d3.select("div.tooltip");
   var infoDropdown = d3.select("div.infoDropdown");
 
-  d3.selectAll("g")
+  d3.selectAll("g.nodes")
       .on("mouseover", function () {
           d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2)
           return tooltip.style("visibility", "visible");
