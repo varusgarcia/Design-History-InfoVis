@@ -6,6 +6,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var circleRadius = 60;
   var circleStrokeWidth = 3;
 
+  // create the basic SVG
   var canvas = d3.select("body")
                 .append("svg")
                 .attr("id", "chartSVG")
