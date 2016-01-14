@@ -97,11 +97,15 @@ svg {
   cursor: all-scroll;
 }
 
+svg rect {
+  fill: rgba(0, 0, 0, 0.0);;
+}
+
 svg circle, line {
   cursor: pointer;
 }
 
-svg .yearsAxis {
+svg .yearsAxis, .yAxis {
   opacity: 0.1;
 }
 
@@ -111,12 +115,12 @@ svg .domain {
   stroke-width: 1.5px;
 }
 
-svg .yearsAxis line {
+svg .yearsAxis line, .yAxis line {
   fill: none;
   stroke: white;
 }
 
-svg .yearsAxis text {
+svg .yearsAxis text, .yAxis text {
   fill: white;
 }
 

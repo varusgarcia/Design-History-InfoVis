@@ -1,39 +1,73 @@
 d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data.json", function (data){
 
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
   var startDate = 1850;
   var xScale = 30;
   var circleRadius = 60;
   var circleStrokeWidth = 3;
 
-  // create the basic SVG
-  var canvas = d3.select("body")
+  // create an object
+  var panExtent = {x: [startDate,3016], y: [0,400] };
+
+  // create the Scale we will use for the xAxis
+  var yearsAxisScale = d3.scale.linear()
+                    .domain([startDate,2016])
+                    .range([0,browserWidth-80]);
+
+  // create the Scale we will use for the yAxis
+  var yAxisScale = d3.scale.linear()
+                    .domain([0,200])
+                    .range([browserHeight-130,0]);
+
+  // create the xAxis
+  var yearsAxis = d3.svg.axis()
+                    .scale(yearsAxisScale)
+                    .orient("bottom")
+                    .ticks(10)
+                    .tickSize(-browserHeight);
+
+  // create the yAxis
+  var yAxis = d3.svg.axis()
+                    .scale(yAxisScale)
+                    .orient("left")
+                    .ticks(10);
+
+
+  var zoom = d3.behavior.zoom()
+      .x(yearsAxisScale)
+      .y(yAxisScale)
+      .scaleExtent([1, 10])
+      .on("zoom", zoomed);
+
+  // CREATE THE SVG
+  var svg = d3.select("body")
                 .append("svg")
                 .attr("id", "chartSVG")
-                .attr("width", 5000)
+                .attr("width", browserWidth)
                 .attr("height", browserHeight)
-                .call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
-                .append("g");
+                .append("g")
+                .call(zoom);
 
-  // YEAR AXIS
-  //Create the Scale we will use for the Axis
-  var axisScale = d3.time.scale()
-                    .domain([new Date(startDate, 0, 1), new Date(2016, 0, 1)])
-                    .range([0,4920]);
+                svg.append("rect")
+                    .attr("width", browserWidth)
+                    .attr("height", browserHeight);
 
-  //Create the Axis
-  var yearsAxis = d3.svg.axis()
-                    .ticks(20)
-                    .scale(axisScale);
-
-  //Create a group Element for the Axis elements and call the xAxis function
-  var yearsAxisGroup = canvas.append("g")
+  // create a group Element for the xAxis elements and call the xAxis function
+  var yearsAxisGroup = svg.append("g")
                     .attr('class', 'yearsAxis')
                     .attr("transform", "translate(40,"+(browserHeight-50)+")")
                     .call(yearsAxis);
 
+  // create a group Element for the yAxis elements and call the yAxis function
+  var yAxisGroup = svg.append("g")
+                    .attr('class', 'yAxis')
+                    .attr("transform", "translate(40,80)")
+                    .call(yAxis);
+
+  // NODE CIRCLES
   // Define the data for the node groups
-  var nodeElements = canvas.selectAll("node")
+  var nodeElements = svg.selectAll("node")
                 .data(data) // binds data to circles
 
   // Create and place the "blocks" containing the circle and the text
@@ -93,7 +127,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
     // draw lines between nodes based on connection ID's
-    var line = canvas.selectAll("line")
+    var line = svg.selectAll("line")
                 .data(connection)
                 .enter()
                 .insert("line", ":first-child")
@@ -134,7 +168,6 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
           return tooltip.style("visibility", "visible");
       })
       .on("mousemove", function () {
-          //console.log(d3.event);
           return tooltip
               .style("top", (d3.event.pageY + 16) + "px")
               .style("left", (d3.event.pageX + 16) + "px");
@@ -143,9 +176,9 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
         return tooltip.style("visibility", "hidden");
       })
-      .on("click", function () {
+      /*.on("click", function () {
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
-      });
+      })*/;
 
   // hide the info dropdown
   d3.select(".hideButton").on("click", function () {
@@ -153,7 +186,36 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   });
 
   // HANDLE ZOOM BEHAVIOR
-  function zoom() {
-    canvas.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  function zoomed() {
+
+    // call the zoom.translate vector with the array returned from panLimit()
+    //zoom.translate(panLimit());
+
+    svg.select(".yearsAxis").call(yearsAxis);
+    svg.select(".yAxis").call(yAxis);
   }
+
+  function panLimit() {
+    console.log("test");
+  	// include boolean to work out the panExtent and return to zoom.translate()
+  	var divisor = {h: browserHeight / ((yAxisScale.domain()[1]-yAxisScale.domain()[0])*zoom.scale()), w: browserWidth / ((yearsAxisScale.domain()[1]-yearsAxisScale.domain()[0])*zoom.scale())},
+  		minX = -(((yearsAxisScale.domain()[0]-yearsAxisScale.domain()[1])*zoom.scale())+(panExtent.x[1]-(panExtent.x[1]-(browserWidth/divisor.w)))),
+  		minY = -(((yAxisScale.domain()[0]-yAxisScale.domain()[1])*zoom.scale())+(panExtent.y[1]-(panExtent.y[1]-(browserHeight*(zoom.scale())/divisor.h))))*divisor.h,
+  		maxX = -(((yearsAxisScale.domain()[0]-yearsAxisScale.domain()[1]))+(panExtent.x[1]-panExtent.x[0]))*divisor.w*zoom.scale(),
+  		maxY = (((yAxisScale.domain()[0]-yAxisScale.domain()[1])*zoom.scale())+(panExtent.y[1]-panExtent.y[0]))*divisor.h*zoom.scale(),
+
+  		tx = yearsAxisScale.domain()[0] < panExtent.x[0] ?
+  				minX :
+  				yearsAxisScale.domain()[1] > panExtent.x[1] ?
+  					maxX :
+  					zoom.translate()[0],
+  		ty = yAxisScale.domain()[0]  < panExtent.y[0]?
+  				minY :
+  				yAxisScale.domain()[1] > panExtent.y[1] ?
+  					maxY :
+  					zoom.translate()[1];
+
+  	return [tx,ty];
+  }
+
 });
