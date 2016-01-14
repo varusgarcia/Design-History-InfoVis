@@ -123,12 +123,13 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   })
 
   var tooltip = d3.select("div.tooltip");
+  var infoDropdown = d3.select("div.infoDropdown");
 
   d3.selectAll("g")
       .on("mouseover", function () {
           d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2)
           return tooltip.style("visibility", "visible");
-          })
+      })
       .on("mousemove", function () {
           //console.log(d3.event);
           return tooltip
@@ -137,18 +138,15 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       })
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
-      return tooltip.style("visibility", "hidden");
-  });
+        return tooltip.style("visibility", "hidden");
+      })
+      .on("click", function () {
+        return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
+      });
 
-  /*
-  // Returns an event handler for fading a given chord group.
-  function fade(opacity) {
-  return function(g, i) {
-    d3.selectAll("line")
-        .filter(function(d) { return d.source != i && d.target != i})
-      .transition()
-        .style("opacity", opacity);
-  }};*/
+  d3.select(".hideButton").on("click", function () {
+    return infoDropdown.classed("showInfoDropdown", false).classed("hideInfoDropdown", true);
+  });
 
   function zoom() {
   canvas.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");

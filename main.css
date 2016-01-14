@@ -1,3 +1,4 @@
+/* -------------------- BASIC -------------------- */
 body{
   margin: 0;
   padding: 0;
@@ -32,7 +33,7 @@ nav #headline {
   color: white;
 }
 
-nav a {
+nav a, .hideButton {
   margin: 14px 20px 0px 0px;
   float: right;
   padding: 8px 15px;
@@ -45,6 +46,11 @@ nav a {
 nav a:hover {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
+  animation: showInfoDropdown 2s ease-out;
+}
+
+nav a:active {
+
 }
 
 #loading-screen {
@@ -83,6 +89,8 @@ nav a:hover {
     100% {transform: rotate(360deg);}
 }
 
+/* -------------------- SVG STYLING -------------------- */
+
 svg {
   background: none;
   z-index: 1;
@@ -112,6 +120,8 @@ svg .yearsAxis text {
   fill: white;
 }
 
+/* -------------------- INFO POPUPS -------------------- */
+
 div.tooltip {
     visibility:hidden;
     padding: 10px 15px;
@@ -119,3 +129,17 @@ div.tooltip {
     position: absolute;
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.3);
 }
+
+div.infoDropdown {
+  position: fixed;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(42, 44, 46, 0.9);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2), inset 0px -1px 0px rgba(0, 114, 156, 0.35);
+	-webkit-backdrop-filter: blur(10px); /* fancy iOS 7 styled background blur (Mac/iOS only) */
+  z-index: 4;
+  transition: all 0.3s ease-in-out;
+}
+.showInfoDropdown { top: 0px; }
+.hideInfoDropdown { top: -100%; }
