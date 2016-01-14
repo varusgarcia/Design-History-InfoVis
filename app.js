@@ -88,8 +88,8 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .attr("text-anchor", "middle")
                 .text(function(d){ return d.Name })
 
+  // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
-
     // draw lines between nodes based on connection ID's
     var line = canvas.selectAll("line")
                 .data(connection)
@@ -116,12 +116,13 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                     return currentY
                   })
                   .attr("stroke", "white")
-                  .attr("stroke-width", function (d){ return d.Quality*2 })
+                  .attr("stroke-width", function (d){ return d.Quality*2 }) // based on connection quality
                   .style("opacity", "0.2")
                   .on("mouseover", function(){ return d3.select(this).style("opacity", "1")})
                   .on("mouseout", function(){ return d3.select(this).style("opacity", "0.2")});
   })
 
+  // HANDLE THE INFO POPOVERS AND DORPDOWNS
   var tooltip = d3.select("div.tooltip");
   var infoDropdown = d3.select("div.infoDropdown");
 
@@ -144,11 +145,13 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
       });
 
+  // hide the info dropdown
   d3.select(".hideButton").on("click", function () {
     return infoDropdown.classed("showInfoDropdown", false).classed("hideInfoDropdown", true);
   });
 
+  // HANDLE ZOOM BEHAVIOR
   function zoom() {
-  canvas.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
+    canvas.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
 });
