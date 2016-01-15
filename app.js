@@ -189,7 +189,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   function zoomed() {
 
     // call the zoom.translate vector with the array returned from panLimit()
-    //zoom.translate(panLimit());
+    zoom.translate(panLimit());
 
     svg.select(".yearsAxis").call(yearsAxis);
     svg.select(".yAxis").call(yAxis);
