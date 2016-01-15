@@ -2,10 +2,14 @@
 body{
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-color: rgb(42, 44, 46);
   background-image: url(images/background-pattern.png);
   background-repeat: repeat;
+}
+
+a {
+  color: white;
 }
 
 nav {
