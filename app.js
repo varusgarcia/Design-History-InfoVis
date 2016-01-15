@@ -72,14 +72,14 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   // NODE CIRCLES
   // Define the data for the node groups
   var nodeElements = svg.selectAll("node")
-                .data(data) // binds data to circles
+                .data(data); // binds data to circles
 
   // Create and place the "blocks" containing the circle and the text
   var nodeBlock = nodeElements.enter()
                 .append("g")
                 .attr("id", function (d){ return d.ID})
                 .attr('class', 'nodes')
-                .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";})
+                .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";});
 
   // CIRCLE IMAGE
   var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
@@ -88,21 +88,21 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                         .attr("height", 1)
                         .attr("width", 1)
                         .attr("x", "0")
-                        .attr("y", "0")
+                        .attr("y", "0");
 
   nodeImage.append("image")
      .attr("x", 0)
      .attr("y", 0)
      .attr("height", circleRadius*2)
      .attr("width", circleRadius*2)
-     .attr("xlink:href", "test-db/images/otl_aicher.png")
+     .attr("xlink:href", "test-db/images/otl_aicher.png");
 
   // CIRLCES
   var circles = nodeBlock.append("circle")
                 .attr("r", circleRadius)
                 .attr("fill", "url(#nodeImage)")
                 .attr("stroke", "#00729c")
-                .attr("stroke-width", circleStrokeWidth)
+                .attr("stroke-width", circleStrokeWidth);
 
   // TEXT BACKGROUND
   var labelsBackgroundMask = nodeBlock.append("clipPath")
@@ -119,14 +119,14 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                                     .attr("clip-path", "url(#clipMask)")
                                     .attr("r", circleRadius)
                                     .attr("fill", "black")
-                                    .attr("opacity", "0.8")
+                                    .attr("opacity", "0.8");
 
   // TEXT LABELS
   var labels = nodeBlock.append("text")
                 .attr("dy", function(d){ return 30 })
                 .attr("fill", "white")
                 .attr("text-anchor", "middle")
-                .text(function(d){ return d.Name })
+                .text(function(d){ return d.Name });
 
   // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
