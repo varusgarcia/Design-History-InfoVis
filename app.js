@@ -176,9 +176,11 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
         return tooltip.style("visibility", "hidden");
       })
-      /*.on("click", function () {
+      .on("click", function () {
+        if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
-      })*/;
+      });
+      
 
   // hide the info dropdown
   d3.select(".hideButton").on("click", function () {
@@ -193,10 +195,10 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
     svg.select(".yearsAxis").call(yearsAxis);
     svg.select(".yAxis").call(yAxis);
+
   }
 
   function panLimit() {
-    console.log("test");
   	// include boolean to work out the panExtent and return to zoom.translate()
   	var divisor = {h: browserHeight / ((yAxisScale.domain()[1]-yAxisScale.domain()[0])*zoom.scale()), w: browserWidth / ((yearsAxisScale.domain()[1]-yearsAxisScale.domain()[0])*zoom.scale())},
   		minX = -(((yearsAxisScale.domain()[0]-yearsAxisScale.domain()[1])*zoom.scale())+(panExtent.x[1]-(panExtent.x[1]-(browserWidth/divisor.w)))),
