@@ -34,9 +34,11 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                     .ticks(10);
 
 
+  var baseScale = 10;
   var zoom = d3.behavior.zoom()
       .x(yearsAxisScale)
       .y(yAxisScale)
+      .scale(baseScale)
       .scaleExtent([1, 10])
       .on("zoom", zoomed);
 
@@ -71,8 +73,12 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
   // NODE CIRCLES
   // Define the data for the node groups
-  var nodeElements = svg.selectAll("node")
-                .data(data); // binds data to circles
+
+  var contentGroup = svg.append("g")
+                      .attr('class', 'contentGroup');
+
+  var nodeElements = contentGroup.selectAll("node")
+                          .data(data) // binds data to circles
 
   // Create and place the "blocks" containing the circle and the text
   var nodeBlock = nodeElements.enter()
@@ -130,8 +136,9 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
   // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
+
     // draw lines between nodes based on connection ID's
-    var line = svg.selectAll("line:not(.tickLines)")
+    var line = contentGroup.selectAll("line:not(.tickLines)")
                 .data(connection)
                 .enter()
                 .insert("line", ":first-child")
@@ -201,6 +208,25 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
     svg.select(".yearsAxis").call(yearsAxis);
     svg.select(".yAxis").call(yAxis);
 
+     svg.select('g.contentGroup').attr("transform", transform);
+  }
+
+  function transform(d) {
+    var scale = d3.event.scale;
+    var translate = d3.event.translate;
+
+    scale = (scale / baseScale);
+
+    /*
+    console.log('1: ', translate);
+    translate = translate.map(function(el, i) {
+      return translate[i] * (scale / 1000);
+    });
+    console.log('2: ', translate);
+    */
+
+    var scaleText = "scale(" + scale + ")";
+    return "translate(" + translate + ")" + " " + scaleText;
   }
 
   function panLimit() {
