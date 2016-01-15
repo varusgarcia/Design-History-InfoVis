@@ -140,6 +140,67 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
 
+    var connections = {};
+
+    // go trough connections and build new object, where the keys are the id of the node-element.
+    // if a id is found in the object, increase by 1
+    connection.map(function(el, i) {
+      if(connections[el.ID1]) {
+        connections[el.ID1] = connections[el.ID1] + 1;
+      } else {
+        connections[el.ID1] = 1;
+      }
+      if(connections[el.ID2]) {
+        connections[el.ID2] = connections[el.ID2] + 1;
+      } else {
+        connections[el.ID2] = 1;
+      }
+    });
+
+    // select all nodes and scale them via connection count
+    svg.selectAll('g.nodes').each(function(el, i) {
+      // norm scale
+      var scale = 1;
+
+      // get the connection count, divide by 2 and multiply by 10
+      if(connections[el.ID] > 1) {
+        scale = (connections[el.ID] / 2) * 10;
+      }
+
+      // add multiplied scale to circle radius
+      var circleRadius = 60 + scale;
+
+      // add new circle radius
+      d3.selectAll('#' + el.ID + ' circle')
+        .attr("r", circleRadius);
+
+      // change rect width and height and x coordinate
+      d3.select('#' + el.ID + ' rect')
+        .attr("x", -circleRadius)
+        .attr("width", circleRadius * 2)
+        .attr("height", circleRadius);
+
+      // change image width and height
+      d3.select('#' + el.ID + ' image')
+        .attr("width", circleRadius * 2)
+        .attr("height", circleRadius * 2);
+
+      // since the id name is all the same, we need to add a ID, so it wont load the first found image, with a false size
+      // so we need to change the id via the index of the loop
+      d3.select( d3.selectAll('#' + el.ID + ' circle')[0].pop() )
+        .attr("clip-path", "url(#clipMask-" + i + ")");
+
+      d3.select( d3.selectAll('#' + el.ID + ' circle')[0].shift() )
+      .attr("fill", "url(#nodeImage-" + i + ")")
+
+      d3.select('#' + el.ID + ' clipPath')
+          .attr('id', "clipMask-" + i)
+
+      d3.select('#' + el.ID + ' pattern')
+        .attr("id", "nodeImage-" + i)
+
+    });
+
     // draw lines between nodes based on connection ID's
     var line = contentGroup.selectAll("line:not(.tickLines)")
                 .data(connection)
