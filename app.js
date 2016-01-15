@@ -8,11 +8,11 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var circleStrokeWidth = 3;
 
   // create an object
-  var panExtent = {x: [startDate,3016], y: [0,400] };
+  var panExtent = {x: [new Date(startDate, 0, 1), new Date(2016, 0, 1)], y: [0,400] };
 
   // create the Scale we will use for the xAxis
-  var yearsAxisScale = d3.scale.linear()
-                    .domain([startDate,2016])
+  var yearsAxisScale = d3.time.scale()
+                    .domain([new Date(startDate, 0, 1), new Date(2016, 0, 1)])
                     .range([0,browserWidth-80]);
 
   // create the Scale we will use for the yAxis
@@ -180,7 +180,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
       });
-      
+
 
   // hide the info dropdown
   d3.select(".hideButton").on("click", function () {

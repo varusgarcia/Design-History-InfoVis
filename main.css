@@ -98,7 +98,7 @@ svg {
 }
 
 svg rect {
-  fill: rgba(0, 0, 0, 0.0);;
+  fill: rgba(0, 0, 0, 0.0);
 }
 
 svg circle, line {
