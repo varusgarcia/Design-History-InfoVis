@@ -57,13 +57,17 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var yearsAxisGroup = svg.append("g")
                     .attr('class', 'yearsAxis')
                     .attr("transform", "translate(40,"+(browserHeight-50)+")")
-                    .call(yearsAxis);
+                    .call(yearsAxis)
+                    .selectAll("line")
+                      .attr('class', 'tickLines');
 
   // create a group Element for the yAxis elements and call the yAxis function
   var yAxisGroup = svg.append("g")
                     .attr('class', 'yAxis')
                     .attr("transform", "translate(40,80)")
-                    .call(yAxis);
+                    .call(yAxis)
+                    .selectAll("line")
+                      .attr('class', 'tickLines');
 
   // NODE CIRCLES
   // Define the data for the node groups
@@ -127,7 +131,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
     // draw lines between nodes based on connection ID's
-    var line = svg.selectAll("line")
+    var line = svg.selectAll("line:not(.tickLines)")
                 .data(connection)
                 .enter()
                 .insert("line", ":first-child")
@@ -151,6 +155,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                     var currentY = d3.transform(g.attr("transform")).translate[1]
                     return currentY
                   })
+                  .attr('class', 'connection')
                   .attr("stroke", "white")
                   .attr("stroke-width", function (d){ return d.Quality*2 }) // based on connection quality
                   .style("opacity", "0.2")
