@@ -154,6 +154,7 @@ div.infoDropdown {
   width: 33%;
   height: 100%;
   color: white;
+  float: left;
 }
 
 .infoDropdown .image {
