@@ -147,3 +147,22 @@ div.infoDropdown {
 }
 .showInfoDropdown { top: 0px; }
 .hideInfoDropdown { top: -100%; }
+
+.infoDropdown .row {
+  position: relative;
+  display: inline-block;
+  width: 33%;
+  height: 100%;
+  background-color: blue;
+}
+
+.infoDropdown .image {
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+  border-radius: 150px;
+  background-image: url("test-db/images/otl_aicher.png");
+  background-size: cover;
+}
