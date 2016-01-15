@@ -33,7 +33,10 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                     .orient("left")
                     .ticks(10);
 
-
+  // look scaleExtent values ...
+  // if base scale is max (10 -> last scaleExtent value), you cant zoom in, only zoom out
+  // if base scale is min (1 -> first scaleExtent value), you cant zoom out, only zoom in
+  // if base scale is in the middle (5), you can zoom in and zoom out
   var baseScale = 10;
   var zoom = d3.behavior.zoom()
       .x(yearsAxisScale)
