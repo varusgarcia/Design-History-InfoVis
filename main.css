@@ -189,3 +189,16 @@ div.infoDropdown {
 .infoDropdown .birthday, .day-of-death {
   display: inline-block;
 }
+.infoDropdown .title {
+  font-size: 35px;
+  text-align: left;
+  margin-left: 80px;
+  margin-top: 80px;
+}
+.infoDropdown .vitaText {
+  font-size: 16px;
+  margin: 5px 80px;
+  margin-top: 60px;
+  height: 70%;
+  overflow-y: auto;
+}
