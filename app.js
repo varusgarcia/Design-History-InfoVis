@@ -271,7 +271,15 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
         return tooltip.style("visibility", "hidden");
       })
-      .on("click", function () {
+      .on("click", function (d) {
+        // applying all the data to the info dropdown
+        infoDropdown.select(".name").html(d.Vorname + "&nbsp;" + d.Name)
+        infoDropdown.select(".profession").html("Designer")
+        infoDropdown.select(".birthday").html("* " + d.Geboren)
+        infoDropdown.select(".birthplace").html("in " + d.Geburtsort)
+        infoDropdown.select(".day-of-death").html("&dagger; " + d.Gestorben)
+        infoDropdown.select(".place-of-death").html("in " + d.Todesort)
+
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
       });
