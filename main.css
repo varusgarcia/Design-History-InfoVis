@@ -135,8 +135,28 @@ div.tooltip, div.connectionPopover {
     padding: 10px 15px;
     background: rgb(255, 255, 255);
     position: absolute;
+    max-width: 500px;
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.3);
 }
+
+div.tooltip .name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+div.tooltip .birthday, div.tooltip .day-of-death {
+  font-size: 14px;
+}
+
+div.tooltip .hint {
+  font-size: 12px;
+  font-style: italic;
+  color: rgb(0, 114, 156);
+  margin-top: 10px;
+}
+
+/* -------------------- INFO DROPDOWN -------------------- */
 
 div.infoDropdown {
   position: fixed;

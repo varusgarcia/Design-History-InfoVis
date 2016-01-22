@@ -255,9 +255,12 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   var infoDropdown = d3.select("div.infoDropdown");
 
   d3.selectAll("g.nodes")
-      .on("mouseover", function () {
-          d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2)
-          return tooltip.style("visibility", "visible");
+      .on("mouseover", function (d) {
+          tooltip.style("visibility", "visible")
+          tooltip.select(".name").html(d.Vorname + "&nbsp;" + d.Name)
+          tooltip.select(".birthday").html("geb." + d.Geboren + " in " + d.Geburtsort)
+          tooltip.select(".day-of-death").html("gest. " + d.Gestorben + " in " + d.Todesort)
+          return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
           return tooltip
