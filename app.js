@@ -104,7 +104,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
      .attr("y", 0)
      .attr("height", circleRadius*2)
      .attr("width", circleRadius*2)
-     .attr("xlink:href", "test-db/images/otl_aicher.png");
+     .attr("xlink:href", function (d){ return "test-db/images/" + d.Vorname + "_" + d.Name + ".jpg" });
 
   // CIRLCES
   var circles = nodeBlock.append("circle")
