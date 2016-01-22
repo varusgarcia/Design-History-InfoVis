@@ -161,6 +161,15 @@ div.infoDropdown {
   float: left;
 }
 
+.infoDropdown .dividingLines {
+  position:absolute;
+  display:inline-block;
+  top: 5%;
+  width: 1px;
+  height: 85%;
+  background-color: grey;
+}
+
 .infoDropdown .image {
   position: relative;
   display: block;
@@ -214,6 +223,17 @@ div.infoDropdown {
   text-align: left;
   margin-left: 80px;
   margin-top: 80px;
+
+}
+.infoDropdown .imageVerbindungen {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 50px auto;
+  border-radius: 150px;
+  background-image: url("test-db/images/otl_aicher.png");
+  background-size: cover;
 }
 
 .hideButton{
