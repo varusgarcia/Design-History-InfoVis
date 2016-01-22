@@ -252,3 +252,9 @@ div.infoDropdown {
   z-index: 100;
   cursor: pointer;
 }
+.birthplace , .place-of-death{
+  margin-left: 10px;
+}
+.subtitle{
+  font-weight: bold;
+}
