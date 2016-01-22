@@ -130,7 +130,7 @@ svg .yearsAxis text, .yAxis text {
 
 /* -------------------- INFO POPUPS -------------------- */
 
-div.tooltip {
+div.tooltip, div.connectionPopover {
     visibility:hidden;
     padding: 10px 15px;
     background: rgb(255, 255, 255);
@@ -196,11 +196,10 @@ div.infoDropdown {
 
 .infoDropdown .smallText {
   font-size: 16px;
-  margin: 5px 80px;
 }
 
-.infoDropdown .birthday, .day-of-death {
-  display: inline-block;
+.infoDropdown p {
+  margin: 15px 80px;
 }
 
 .infoDropdown .title {
