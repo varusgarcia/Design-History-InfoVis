@@ -67,12 +67,12 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                       .attr('class', 'tickLines');
 
   // create a group Element for the yAxis elements and call the yAxis function
-  var yAxisGroup = svg.append("g")
+  /*var yAxisGroup = svg.append("g")
                     .attr('class', 'yAxis')
                     .attr("transform", "translate(40,80)")
                     .call(yAxis)
                     .selectAll("line")
-                      .attr('class', 'tickLines');
+                      .attr('class', 'tickLines');*/
 
   // NODE CIRCLES
   // Define the data for the node groups
@@ -229,9 +229,25 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                   .attr('class', 'connection')
                   .attr("stroke", "white")
                   .attr("stroke-width", function (d){ return d.Quality*2 }) // based on connection quality
-                  .style("opacity", "0.2")
-                  .on("mouseover", function(){ return d3.select(this).style("opacity", "1")})
-                  .on("mouseout", function(){ return d3.select(this).style("opacity", "0.2")});
+                  .style("opacity", "0.2");
+
+    // HANDLE THE CONNECTION INFO POPOVER
+    var connectionPopover = d3.select("div.connectionPopover");
+
+    d3.selectAll("line.connection")
+        .on("mouseover", function (d) {
+            d3.select(this).style("opacity", "1")
+            return connectionPopover.style("visibility", "visible").html(d.Role).attr("href", d.Quelle);
+        })
+        .on("mousemove", function () {
+            return connectionPopover
+                .style("top", (d3.event.pageY + 16) + "px")
+                .style("left", (d3.event.pageX + 16) + "px");
+        })
+        .on("mouseout", function () {
+          d3.select(this).style("opacity", "0.2")
+          return connectionPopover.style("visibility", "hidden");
+        });
   })
 
   // HANDLE THE INFO POPOVERS AND DORPDOWNS
