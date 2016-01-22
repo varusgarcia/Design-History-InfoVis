@@ -280,6 +280,8 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         infoDropdown.select(".day-of-death").html("&dagger; " + d.Gestorben)
         infoDropdown.select(".place-of-death").html("in " + d.Todesort)
 
+        infoDropdown.select(".vitaText").html(d.Bio)
+
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
       });
