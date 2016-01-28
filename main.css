@@ -168,6 +168,7 @@ div.infoDropdown {
 	-webkit-backdrop-filter: blur(10px); /* fancy iOS 7 styled background blur (Mac/iOS only) */
   z-index: 4;
   transition: all 0.3s ease-in-out;
+  overflow: hidden;
 }
 .showInfoDropdown { top: 0px; }
 .hideInfoDropdown { top: -100%; }
