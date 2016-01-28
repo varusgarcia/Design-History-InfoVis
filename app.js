@@ -2,7 +2,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-  var startDate = 1850;
+  var startDate = 1870;
   var xScale = 30;
   var circleRadius = 60;
   var circleStrokeWidth = 3;
@@ -12,7 +12,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
 
   // create the Scale we will use for the xAxis
   var yearsAxisScale = d3.time.scale()
-                    .domain([new Date(startDate, 0, 1), new Date(2016, 0, 1)])
+                    .domain([new Date(startDate, 0, 1), new Date(2350, 0, 1)])
                     .range([0,browserWidth-80]);
 
   // create the Scale we will use for the yAxis
@@ -88,7 +88,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .append("g")
                 .attr("id", function (d){ return d.ID})
                 .attr('class', 'nodes')
-                .attr("transform", function(d) { return "translate("+((d.Geboren * xScale) - (startDate * xScale))+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";});
+                .attr("transform", function(d) { return "translate("+((d.Geboren - startDate) * xScale + 50)+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";});
 
   // CIRCLE IMAGE
   var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
