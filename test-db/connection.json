@@ -229,5 +229,29 @@
     "Role":"Schüler",
     "Quelle":"http://www.alexkaessner.de/",
     "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID1":"id01",
+    "ID2":"id08",
+    "Quality":2,
+    "Role":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID1":"id12",
+    "ID2":"id04",
+    "Quality":3,
+    "Role":"Schüler",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
+  },
+  {
+    "ID1":"id20",
+    "ID2":"id14",
+    "Quality":1,
+    "Role":"Kollege",
+    "Quelle":"http://www.alexkaessner.de/",
+    "Verfasser":"Alexander Käßner"
   }
 ]
