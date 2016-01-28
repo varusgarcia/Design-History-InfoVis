@@ -273,6 +273,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       })
       .on("click", function (d) {
         // applying all the data to the info dropdown
+        infoDropdown.select(".image").attr("src", "test-db/images/" + d.Vorname + "_" + d.Name + ".jpg")
         infoDropdown.select(".name").html(d.Vorname + "&nbsp;" + d.Name)
         infoDropdown.select(".profession").html("Designer")
         infoDropdown.select(".birthday").html("* " + d.Geboren)

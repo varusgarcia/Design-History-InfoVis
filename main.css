@@ -197,8 +197,6 @@ div.infoDropdown {
   height: 200px;
   margin: 50px auto;
   border-radius: 150px;
-  background-image: url("test-db/images/otl_aicher.png");
-  background-size: cover;
 }
 
 .infoDropdown .name {
