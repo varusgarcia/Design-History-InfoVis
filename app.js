@@ -237,7 +237,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
     d3.selectAll("line.connection")
         .on("mouseover", function (d) {
             d3.select(this).style("opacity", "1")
-            return connectionPopover.style("visibility", "visible").html(d.Role).attr("href", d.Quelle);
+            return connectionPopover.style("visibility", "visible").select(".role").html(d.Role);
         })
         .on("mousemove", function () {
             return connectionPopover
@@ -247,6 +247,10 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
         .on("mouseout", function () {
           d3.select(this).style("opacity", "0.2")
           return connectionPopover.style("visibility", "hidden");
+        })
+        .on("click", function (d) {
+          if (d3.event.defaultPrevented) return;
+          return window.open(d.Quelle);
         });
   })
 
