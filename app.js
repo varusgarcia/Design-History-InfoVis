@@ -168,32 +168,32 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       var circleRadius = 60 + scale;
 
       // add new circle radius
-      d3.selectAll('#id' + el.id + ' circle')
+      d3.selectAll('#' + el.id + ' circle')
         .attr("r", circleRadius);
 
       // change rect width and height and x coordinate
-      d3.select('#id' + el.id + ' rect')
+      d3.select('#' + el.id + ' rect')
         .attr("x", -circleRadius)
         .attr("width", circleRadius * 2)
         .attr("height", circleRadius);
 
       // change image width and height
-      d3.select('#id' + el.id + ' image')
+      d3.select('#' + el.id + ' image')
         .attr("width", circleRadius * 2)
         .attr("height", circleRadius * 2);
 
       // since the id name is all the same, we need to add a ID, so it wont load the first found image, with a false size
       // so we need to change the id via the index of the loop
-      d3.select( d3.selectAll('#id' + el.id + ' circle')[0].pop() )
+      d3.select( d3.selectAll('#' + el.id + ' circle')[0].pop() )
         .attr("clip-path", "url(#clipMask-" + i + ")");
 
-      d3.select( d3.selectAll('#id' + el.id + ' circle')[0].shift() )
+      d3.select( d3.selectAll('#' + el.id + ' circle')[0].shift() )
       .attr("fill", "url(#nodeImage-" + i + ")")
 
-      d3.select('#id' + el.id + ' clipPath')
+      d3.select('#' + el.id + ' clipPath')
           .attr('id', "clipMask-" + i)
 
-      d3.select('#id' + el.id + ' pattern')
+      d3.select('#' + el.id + ' pattern')
         .attr("id", "nodeImage-" + i)
 
     });
