@@ -1,4 +1,4 @@
-d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data.json", function (data){
+d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data1.json", function (data){
 
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -66,17 +66,8 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                     .selectAll("line")
                       .attr('class', 'tickLines');
 
-  // create a group Element for the yAxis elements and call the yAxis function
-  /*var yAxisGroup = svg.append("g")
-                    .attr('class', 'yAxis')
-                    .attr("transform", "translate(40,80)")
-                    .call(yAxis)
-                    .selectAll("line")
-                      .attr('class', 'tickLines');*/
-
   // NODE CIRCLES
   // Define the data for the node groups
-
   var contentGroup = svg.append("g")
                       .attr('class', 'contentGroup');
 
@@ -86,14 +77,17 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   // Create and place the "blocks" containing the circle and the text
   var nodeBlock = nodeElements.enter()
                 .append("g")
-                .attr("id", function (d){ return d.ID})
+                .attr("id", function (d){ return d.id})
                 .attr('class', 'nodes')
-                .attr("transform", function(d) { return "translate("+((d.Geboren - startDate) * xScale + 50)+","+(Math.random() * (browserHeight-40 - 30) + 30)+")";});
+                .attr("transform", function(d) {
+
+                  return "translate("+(((new Date(d.date_birth).getFullYear()) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
+                });
 
   // CIRCLE IMAGE
   var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
   var nodeImage = imgdefs.append("pattern")
-                        .attr("id", "nodeImage")
+                        .attr("id", function(d) { return "nodeImage" + d.id })
                         .attr("height", 1)
                         .attr("width", 1)
                         .attr("x", "0")
@@ -104,12 +98,15 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
      .attr("y", 0)
      .attr("height", circleRadius*2)
      .attr("width", circleRadius*2)
-     .attr("xlink:href", function (d){ return "test-db/images/" + d.Vorname + "_" + d.Name + ".jpg" });
+     .attr("xlink:href", function (d){ return d.image_path });
 
   // CIRLCES
   var circles = nodeBlock.append("circle")
                 .attr("r", circleRadius)
-                .attr("fill", "url(#nodeImage)")
+                .attr("fill", function(d) {
+                  if ( d.image_path == null) { return "#00506E"; }
+                  else { return "url(#nodeImage" + d.id + ")"; }
+                })
                 .attr("stroke", "#00729c")
                 .attr("stroke-width", circleStrokeWidth);
 
@@ -135,7 +132,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .attr("dy", function(d){ return 30 })
                 .attr("fill", "white")
                 .attr("text-anchor", "middle")
-                .text(function(d){ return d.Name });
+                .text(function(d){ return d.surname });
 
   // LINE CONNECTIONS
   d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
@@ -145,15 +142,15 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
     // go trough connections and build new object, where the keys are the id of the node-element.
     // if a id is found in the object, increase by 1
     connection.map(function(el, i) {
-      if(connections[el.ID1]) {
-        connections[el.ID1] = connections[el.ID1] + 1;
+      if(connections[el.start_id]) {
+        connections[el.start_id] = connections[el.start_id] + 1;
       } else {
-        connections[el.ID1] = 1;
+        connections[el.start_id] = 1;
       }
-      if(connections[el.ID2]) {
-        connections[el.ID2] = connections[el.ID2] + 1;
+      if(connections[el.node_id]) {
+        connections[el.node_id] = connections[el.node_id] + 1;
       } else {
-        connections[el.ID2] = 1;
+        connections[el.node_id] = 1;
       }
     });
 
@@ -163,40 +160,40 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       var scale = 1;
 
       // get the connection count, divide by 2 and multiply by 10
-      if(connections[el.ID] > 1) {
-        scale = (connections[el.ID] / 2) * 10;
+      if(connections[el.id] > 1) {
+        scale = (connections[el.id] / 2) * 10;
       }
 
       // add multiplied scale to circle radius
       var circleRadius = 60 + scale;
 
       // add new circle radius
-      d3.selectAll('#' + el.ID + ' circle')
+      d3.selectAll('#id' + el.id + ' circle')
         .attr("r", circleRadius);
 
       // change rect width and height and x coordinate
-      d3.select('#' + el.ID + ' rect')
+      d3.select('#id' + el.id + ' rect')
         .attr("x", -circleRadius)
         .attr("width", circleRadius * 2)
         .attr("height", circleRadius);
 
       // change image width and height
-      d3.select('#' + el.ID + ' image')
+      d3.select('#id' + el.id + ' image')
         .attr("width", circleRadius * 2)
         .attr("height", circleRadius * 2);
 
       // since the id name is all the same, we need to add a ID, so it wont load the first found image, with a false size
       // so we need to change the id via the index of the loop
-      d3.select( d3.selectAll('#' + el.ID + ' circle')[0].pop() )
+      d3.select( d3.selectAll('#id' + el.id + ' circle')[0].pop() )
         .attr("clip-path", "url(#clipMask-" + i + ")");
 
-      d3.select( d3.selectAll('#' + el.ID + ' circle')[0].shift() )
+      d3.select( d3.selectAll('#id' + el.id + ' circle')[0].shift() )
       .attr("fill", "url(#nodeImage-" + i + ")")
 
-      d3.select('#' + el.ID + ' clipPath')
+      d3.select('#id' + el.id + ' clipPath')
           .attr('id', "clipMask-" + i)
 
-      d3.select('#' + el.ID + ' pattern')
+      d3.select('#id' + el.id + ' pattern')
         .attr("id", "nodeImage-" + i)
 
     });
@@ -207,28 +204,28 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .enter()
                 .insert("line", ":first-child")
                   .attr("x1", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.ID1)
+                    var g = d3.select("svg").selectAll("#"+d.start_id)
                     var currentX = d3.transform(g.attr("transform")).translate[0]
                     return currentX
                   })
                   .attr("y1", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.ID1)
+                    var g = d3.select("svg").selectAll("#"+d.start_id)
                     var currentY = d3.transform(g.attr("transform")).translate[1]
                     return currentY
                   })
                   .attr("x2", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.ID2)
+                    var g = d3.select("svg").selectAll("#"+d.node_id)
                     var currentX = d3.transform(g.attr("transform")).translate[0]
                     return currentX
                   })
                   .attr("y2", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.ID2)
+                    var g = d3.select("svg").selectAll("#"+d.node_id)
                     var currentY = d3.transform(g.attr("transform")).translate[1]
                     return currentY
                   })
                   .attr('class', 'connection')
                   .attr("stroke", "white")
-                  .attr("stroke-width", function (d){ return d.Quality*2 }) // based on connection quality
+                  .attr("stroke-width", function (d){ return d.type_id }) // based on connection quality
                   .style("opacity", "0.2");
 
     // HANDLE THE CONNECTION INFO POPOVER
@@ -237,7 +234,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
     d3.selectAll("line.connection")
         .on("mouseover", function (d) {
             d3.select(this).style("opacity", "1")
-            return connectionPopover.style("visibility", "visible").select(".role").html(d.Role);
+            return connectionPopover.style("visibility", "visible").select(".role").html(d.title);
         })
         .on("mousemove", function () {
             return connectionPopover
@@ -261,9 +258,9 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
   d3.selectAll("g.nodes")
       .on("mouseover", function (d) {
           tooltip.style("visibility", "visible")
-          tooltip.select(".name").html(d.Vorname + "&nbsp;" + d.Name)
-          tooltip.select(".birthday").html("geb." + d.Geboren + " in " + d.Geburtsort)
-          tooltip.select(".day-of-death").html("gest. " + d.Gestorben + " in " + d.Todesort)
+          tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
+          tooltip.select(".birthday").html("geb." + d.date_birth)
+          tooltip.select(".day-of-death").html("gest. " + d.date_death)
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
@@ -277,15 +274,15 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       })
       .on("click", function (d) {
         // applying all the data to the info dropdown
-        infoDropdown.select(".image").attr("src", "test-db/images/" + d.Vorname + "_" + d.Name + ".jpg")
-        infoDropdown.select(".name").html(d.Vorname + "&nbsp;" + d.Name)
+        infoDropdown.select(".image").attr("src", d.image_path)
+        infoDropdown.select(".name").html(d.name + "&nbsp;" + d.surname)
         infoDropdown.select(".profession").html("Designer")
-        infoDropdown.select(".birthday").html("* " + d.Geboren)
+        infoDropdown.select(".birthday").html("* " + d.date_birth)
         infoDropdown.select(".birthplace").html("in " + d.Geburtsort)
-        infoDropdown.select(".day-of-death").html("&dagger; " + d.Gestorben)
+        infoDropdown.select(".day-of-death").html("&dagger; " + d.date_death)
         infoDropdown.select(".place-of-death").html("in " + d.Todesort)
 
-        infoDropdown.select(".vitaText").html(d.Bio)
+        infoDropdown.select(".vitaText").html(d.vita)
 
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
