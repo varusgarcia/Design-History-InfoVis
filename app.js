@@ -1,4 +1,4 @@
-d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/data1.json", function (data){
+d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
 
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -72,12 +72,12 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                       .attr('class', 'contentGroup');
 
   var nodeElements = contentGroup.selectAll("node")
-                          .data(data) // binds data to circles
+                          .data(data.nodes) // binds data to circles
 
   // Create and place the "blocks" containing the circle and the text
   var nodeBlock = nodeElements.enter()
                 .append("g")
-                .attr("id", function (d){ return d.id})
+                .attr("id", function (d) { return 'node-' + d.id })
                 .attr('class', 'nodes')
                 .attr("transform", function(d) {
 
@@ -98,7 +98,7 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
      .attr("y", 0)
      .attr("height", circleRadius*2)
      .attr("width", circleRadius*2)
-     .attr("xlink:href", function (d){ return d.image_path });
+     .attr("xlink:href", function (d) { return d.image_src }); // well they all provided external links ... but thats not whats the field was for ... ^^
 
   // CIRLCES
   var circles = nodeBlock.append("circle")
@@ -135,13 +135,13 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
                 .text(function(d){ return d.surname });
 
   // LINE CONNECTIONS
-  d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/master/test-db/connection.json", function (connection){
+  d3.json("http://designgeschichte.fh-potsdam.de/edges", function (connection) {
 
     var connections = {};
 
     // go trough connections and build new object, where the keys are the id of the node-element.
     // if a id is found in the object, increase by 1
-    connection.map(function(el, i) {
+    connection.edges.map(function(el, i) {
       if(connections[el.start_id]) {
         connections[el.start_id] = connections[el.start_id] + 1;
       } else {
@@ -168,58 +168,58 @@ d3.json("https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/ma
       var circleRadius = 60 + scale;
 
       // add new circle radius
-      d3.selectAll('#' + el.id + ' circle')
+      d3.selectAll('#node-' + el.id + ' circle')
         .attr("r", circleRadius);
 
       // change rect width and height and x coordinate
-      d3.select('#' + el.id + ' rect')
+      d3.select('#node-' + el.id + ' rect')
         .attr("x", -circleRadius)
         .attr("width", circleRadius * 2)
         .attr("height", circleRadius);
 
       // change image width and height
-      d3.select('#' + el.id + ' image')
+      d3.select('#node-' + el.id + ' image')
         .attr("width", circleRadius * 2)
         .attr("height", circleRadius * 2);
 
       // since the id name is all the same, we need to add a ID, so it wont load the first found image, with a false size
       // so we need to change the id via the index of the loop
-      d3.select( d3.selectAll('#' + el.id + ' circle')[0].pop() )
+      d3.select( d3.selectAll('#node-' + el.id + ' circle')[0].pop() )
         .attr("clip-path", "url(#clipMask-" + i + ")");
 
-      d3.select( d3.selectAll('#' + el.id + ' circle')[0].shift() )
+      d3.select( d3.selectAll('#node-' + el.id + ' circle')[0].shift() )
       .attr("fill", "url(#nodeImage-" + i + ")")
 
-      d3.select('#' + el.id + ' clipPath')
+      d3.select('#node-' + el.id + ' clipPath')
           .attr('id', "clipMask-" + i)
 
-      d3.select('#' + el.id + ' pattern')
+      d3.select('#node-' + el.id + ' pattern')
         .attr("id", "nodeImage-" + i)
 
     });
 
     // draw lines between nodes based on connection ID's
     var line = contentGroup.selectAll("line:not(.tickLines)")
-                .data(connection)
+                .data(connection.edges)
                 .enter()
                 .insert("line", ":first-child")
                   .attr("x1", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.start_id)
+                    var g = d3.select("svg").selectAll("#node-"+d.start_id)
                     var currentX = d3.transform(g.attr("transform")).translate[0]
                     return currentX
                   })
                   .attr("y1", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.start_id)
+                    var g = d3.select("svg").selectAll("#node-"+d.start_id)
                     var currentY = d3.transform(g.attr("transform")).translate[1]
                     return currentY
                   })
                   .attr("x2", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.node_id)
+                    var g = d3.select("svg").selectAll("#node-"+d.node_id)
                     var currentX = d3.transform(g.attr("transform")).translate[0]
                     return currentX
                   })
                   .attr("y2", function (d){
-                    var g = d3.select("svg").selectAll("#"+d.node_id)
+                    var g = d3.select("svg").selectAll("#node-"+d.node_id)
                     var currentY = d3.transform(g.attr("transform")).translate[1]
                     return currentY
                   })
