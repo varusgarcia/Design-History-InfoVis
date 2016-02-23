@@ -6,6 +6,7 @@ d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
   var xScale = 30;
   var circleRadius = 60;
   var circleStrokeWidth = 3;
+  var dateformat = d3.time.format("%d. %B %Y");
 
   // create an object
   var panExtent = {x: [new Date(startDate, 0, 1), new Date(2016, 0, 1)], y: [0,400] };
@@ -260,8 +261,8 @@ d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
       .on("mouseover", function (d) {
           tooltip.style("visibility", "visible")
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html("geb." + d.date_birth)
-          tooltip.select(".day-of-death").html("gest. " + d.date_death)
+          tooltip.select(".birthday").html("geb. " + dateformat(new Date(d.date_birth)))
+          tooltip.select(".day-of-death").html("gest. " + dateformat(new Date(d.date_death)))
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
@@ -278,9 +279,9 @@ d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
         infoDropdown.select(".image").attr("src", d.image_path)
         infoDropdown.select(".name").html(d.name + "&nbsp;" + d.surname)
         infoDropdown.select(".profession").html("Designer")
-        infoDropdown.select(".birthday").html("* " + d.date_birth)
+        infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
         infoDropdown.select(".birthplace").html("in " + d.Geburtsort)
-        infoDropdown.select(".day-of-death").html("&dagger; " + d.date_death)
+        infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
         infoDropdown.select(".place-of-death").html("in " + d.Todesort)
 
         infoDropdown.select(".vitaText").html(d.vita)
