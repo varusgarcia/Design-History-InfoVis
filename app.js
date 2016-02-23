@@ -278,11 +278,13 @@ d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
         // applying all the data to the info dropdown
         infoDropdown.select(".image").attr("src", d.image_path)
         infoDropdown.select(".name").html(d.name + "&nbsp;" + d.surname)
-        infoDropdown.select(".profession").html("Designer")
+        infoDropdown.select(".birthname").html(function() {
+          if ( d.name_birth == 0) { return ""; }
+          else {  return "geb. " + d.name_birth;  }
+        })
+        infoDropdown.select(".pseudonym").html(d.pseudonym)
         infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
-        infoDropdown.select(".birthplace").html("in " + d.Geburtsort)
         infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
-        infoDropdown.select(".place-of-death").html("in " + d.Todesort)
 
         infoDropdown.select(".vitaText").html(d.vita)
 
