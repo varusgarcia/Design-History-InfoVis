@@ -198,6 +198,7 @@ div.infoDropdown {
   height: 200px;
   margin: 50px auto;
   border-radius: 150px;
+  object-fit: contain;
 }
 
 .infoDropdown .name {

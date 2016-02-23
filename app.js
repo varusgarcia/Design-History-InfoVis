@@ -98,6 +98,7 @@ d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
      .attr("y", 0)
      .attr("height", circleRadius*2)
      .attr("width", circleRadius*2)
+     .attr("preserveAspectRatio", "xMinYMin slice")
      .attr("xlink:href", function (d) { return d.image_src }); // well they all provided external links ... but thats not whats the field was for ... ^^
 
   // CIRLCES
