@@ -99,6 +99,7 @@ svg {
   background: none;
   z-index: 1;
   cursor: all-scroll;
+  shape-rendering: optimizeSpeed;
 }
 
 svg rect {
@@ -198,7 +199,7 @@ div.infoDropdown {
   height: 200px;
   margin: 50px auto;
   border-radius: 150px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .infoDropdown .name {
