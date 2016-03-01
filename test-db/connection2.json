@@ -1,5 +1,7 @@
 {
-  "edges": [
+  "edges": {
+    [
+
     {
       "id": "2",
       "target": 82,
@@ -515,14 +517,14 @@
       "id": "81",
       "target": 259,
       "type_id": "10",
-      "edge_src": "http://grenzstrasse.jimdo.com/b-e-w-o-h-n-e-r-g%C3%A4ste/freunde-und-g%C3%A4ste/]",
+      "edge_src": "http://grenzstrasse.jimdo.com/b-e-w-o-h-n-e-r-g%C3%A4ste/freunde-und-g%C3%A4ste/",
       "source": 302
     },
     {
       "id": "82",
       "target": 149,
       "type_id": "10",
-      "edge_src": "http://grenzstrasse.jimdo.com/b-e-w-o-h-n-e-r-g%C3%A4ste/freunde-und-g%C3%A4ste/]",
+      "edge_src": "http://grenzstrasse.jimdo.com/b-e-w-o-h-n-e-r-g%C3%A4ste/freunde-und-g%C3%A4ste/",
       "source": 302
     },
     {
@@ -6773,14 +6775,14 @@
       "id": "1081",
       "target": 340,
       "type_id": "12",
-      "edge_src": "U te tri godine njegovi su profesori bili Paul Klee, Wassily Kandinsky, Mies van der Rohe [zu deutsch: In diesen drei Jahren waren seine Professoren Paul Klee, Wassily Kandinsky, Mies van der Rohe] (http://www.portalnovosti.com/selman-selmanagic)",
+      "edge_src": "U te tri godine njegovi su profesori bili Paul Klee, Wassily Kandinsky, Mies van der Rohe zu deutsch: In diesen drei Jahren waren seine Professoren Paul Klee, Wassily Kandinsky, Mies van der Rohe (http://www.portalnovosti.com/selman-selmanagic)",
       "source": 487
     },
     {
       "id": "1082",
       "target": 505,
       "type_id": "12",
-      "edge_src": "U te tri godine njegovi su profesori bili Paul Klee, Wassily Kandinsky, Mies van der Rohe [zu deutsch: In diesen drei Jahren waren seine Professoren Paul Klee, Wassily Kandinsky, Mies van der Rohe] (http://www.portalnovosti.com/selman-selmanagic)",
+      "edge_src": "U te tri godine njegovi su profesori bili Paul Klee, Wassily Kandinsky, Mies van der Rohe zu deutsch: In diesen drei Jahren waren seine Professoren Paul Klee, Wassily Kandinsky, Mies van der Rohe (http://www.portalnovosti.com/selman-selmanagic)",
       "source": 487
     },
     {
@@ -6815,7 +6817,7 @@
       "id": "1087",
       "target": 344,
       "type_id": "12",
-      "edge_src": "Mies van der Rohe, Josef Albers, Wassily Kandinsky, Paul Klee, Hannes Meyer, Ludwig Hilberseimer – samo su neka od imena Selmanagićevih slavnih profesora [zu deutsch: Mies van der Rohe, Josef Albers, Wassily Kandinsky, Paul Klee, Hannes Meyer, Ludwig Hilberseimer - das sind nur einige der Namen von Selmanagics berühmten Professoren](http://behar.hr/selman-selmanagic-i-bauhaus-iznimno-vrijedno-i-znacajno-djelo-za-bih/)",
+      "edge_src": "Mies van der Rohe, Josef Albers, Wassily Kandinsky, Paul Klee, Hannes Meyer, Ludwig Hilberseimer – samo su neka od imena Selmanagićevih slavnih profesora zu deutsch: Mies van der Rohe, Josef Albers, Wassily Kandinsky, Paul Klee, Hannes Meyer, Ludwig Hilberseimer - das sind nur einige der Namen von Selmanagics berühmten Professoren(http://behar.hr/selman-selmanagic-i-bauhaus-iznimno-vrijedno-i-znacajno-djelo-za-bih/)",
       "source": 487
     },
     {
@@ -8317,4 +8319,5 @@
       "source": 207
     }
   ]
+}
 }
