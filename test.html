@@ -2,8 +2,9 @@
 <head>
   <meta charset="utf-8">
   <title>Design Geschichte InfoVis</title>
-  <script src="http://d3js.org/d3.v3.min.js"></script
+  <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
 
   <style>
   body, div {
@@ -47,9 +48,6 @@
 <body>
 <script>
 
-d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
-  d3.json("http://designgeschichte.fh-potsdam.de/edges", function (connections){
-
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
@@ -77,44 +75,48 @@ d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
 
   var container = svg.append("g");
 
-  force.nodes(data.nodes)
-          //.links(connections.edges)
-          .start();
+  queue()
+    .defer(d3.json, 'http://designgeschichte.fh-potsdam.de/nodes')
+    .defer(d3.json, 'http://designgeschichte.fh-potsdam.de/edges')
+    .await(makeLayout);
 
-  var node = container.append("g")
-                        .attr("class", "nodes")
-                        .selectAll(".node")
-                        .data(data.nodes)
-                        .enter().append("g")
-                         .attr("class", "node")
-                         .attr("cx", function(d) { return d.x; })
-                         .attr("cy", function(d) { return d.y; })
-                         .attr("id", function (d) { return 'node-' + d.id });
-                         //.call(drag);
+  function makeLayout(error, nodesData, edgesData) {
+      force.nodes(nodesData.nodes)
+              //.links(connections.edges)
+              .start();
 
-  var link = container.append("g")
-                      .attr("class", "links")
-                      .selectAll(".link")
+      var node = container.append("g")
+                            .attr("class", "nodes")
+                            .selectAll(".node")
+                            .data(nodesData.nodes)
+                            .enter().append("g")
+                             .attr("class", "node")
+                             .attr("cx", function(d) { return d.x; })
+                             .attr("cy", function(d) { return d.y; })
+                             .attr("id", function (d) { return 'node-' + d.id });
+                             //.call(drag);
 
-  node.append("circle")
-    .attr("r", function(d) { return d.weight * 2+ 12; })
-    .append("title").text(function(d){ return "Name:" + d.name + " " + d.surname +" (ID: " + d.id + " )" })
-    //.style("fill", function(d) { return color(1/d.rating); });
+      var link = container.append("g")
+                          .attr("class", "links")
+                          .selectAll(".link")
 
-  force.on("tick", function() {
-    data.nodes.forEach (function(nodePos,i) {
-      nodePos.x = i * 15;
-    })
+      node.append("circle")
+        .attr("r", function(d) { return d.weight * 2+ 12; })
+        .append("title").text(function(d){ return "Name:" + d.name + " " + d.surname +" (ID: " + d.id + " )" })
+        //.style("fill", function(d) { return color(1/d.rating); });
 
-    node.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ")"; });
-  });
+      force.on("tick", function() {
+        nodesData.nodes.forEach (function(nodePos,i) {
+          nodePos.x = i * 15;
+        })
+
+        node.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ")"; });
+      });
+  }
 
   function zoomed() {
     container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   }
-
-});
-});
 </script>
 </body>
 </html>
