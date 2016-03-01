@@ -77,13 +77,21 @@
 
   queue()
     .defer(d3.json, 'http://designgeschichte.fh-potsdam.de/nodes')
-    .defer(d3.json, 'http://designgeschichte.fh-potsdam.de/edges')
+    .defer(d3.json, 'https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/real-database/test-db/connection1.json')
     .await(makeLayout);
 
   function makeLayout(error, nodesData, edgesData) {
       force.nodes(nodesData.nodes)
-              //.links(connections.edges)
+              .links(edgesData.edges)
               .start();
+
+      var link = container.append("g")
+                          .attr("class", "links")
+                          .selectAll(".link")
+                          .data(edgesData.edges)
+                          .enter().append("line")
+                            .attr("class", "link")
+                            .style("stroke-width", 4);
 
       var node = container.append("g")
                             .attr("class", "nodes")
@@ -96,9 +104,6 @@
                              .attr("id", function (d) { return 'node-' + d.id });
                              //.call(drag);
 
-      var link = container.append("g")
-                          .attr("class", "links")
-                          .selectAll(".link")
 
       node.append("circle")
         .attr("r", function(d) { return d.weight * 2+ 12; })
@@ -109,6 +114,11 @@
         nodesData.nodes.forEach (function(nodePos,i) {
           nodePos.x = i * 15;
         })
+
+        link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
 
         node.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ")"; });
       });
