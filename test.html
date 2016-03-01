@@ -44,6 +44,12 @@
             .scaleExtent([0.1, 10])
             .on("zoom", zoomed);
 
+  var drag = d3.behavior.drag()
+            .origin(function(d) { return d; })
+            .on("dragstart", dragstarted)
+            .on("drag", dragged)
+            .on("dragend", dragended);
+
   var svg = d3.select("body").append("svg")
             .attr("width", browserWidth)
             .attr("height", browserHeight)
@@ -85,8 +91,8 @@
                              .attr("class", "node")
                              .attr("cx", function(d) { return d.x; })
                              .attr("cy", function(d) { return d.y; })
-                             .attr("id", function (d) { return 'node-' + d.id });
-                             //.call(drag);
+                             .attr("id", function (d) { return 'node-' + d.id })
+                             .call(drag);
 
 
       node.append("circle")
@@ -145,10 +151,26 @@
 
   }
 
-
-
   function zoomed() {
     container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
+
+  function dragstarted(d) {
+    d3.event.sourceEvent.stopPropagation();
+
+    d3.select(this).classed("dragging", true);
+    force.start();
+  }
+
+  function dragged(d) {
+
+    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+
+  }
+
+  function dragended(d) {
+
+    d3.select(this).classed("dragging", false);
   }
 </script>
 </body>
