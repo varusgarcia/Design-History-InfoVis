@@ -12,35 +12,19 @@
     padding: 0;
   }
 
-  svg {
-  }
-
-  .axis text {
-    font-family: Oxygen;
-    font-size: 10px;
-  }
-  .axis line,
-  .axis path {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
-
-  .node {
-    stroke-width: 1.5px;
-  }
-  .node.target {
-    fill: #FFBC73;
-    stroke: #FFA340;
-  }
-  .node.source {
-    fill: #62B1D0;
-    stroke: #0776A0;
-  }
-
   .link {
     stroke: #999;
     stroke-opacity: .6;
+  }
+
+  .link-active {
+    stroke: red;
+    stroke-opacity: 1;
+  }
+
+  .node-active {
+    stroke: red;
+    stroke-width: 2px;
   }
   </style>
 </head>
@@ -122,7 +106,46 @@
 
         node.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ")"; });
       });
+
+      var linkedByIndex = {};
+      edgesData.edges.forEach(function(d) {
+          linkedByIndex[d.source.index + "," + d.target.index] = 1;
+      });
+
+      function isConnected(a, b) {
+          return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index];
+      }
+
+      node.on("mouseover", function(d){
+
+            node.classed("node-active", function(o) {
+                thisOpacity = isConnected(d, o) ? true : false;
+                this.setAttribute('fill-opacity', thisOpacity);
+                return thisOpacity;
+            });
+
+            link.classed("link-active", function(o) {
+                return o.source === d || o.target === d ? true : false;
+            });
+
+            d3.select(this).classed("node-active", true);
+            d3.select(this).select("circle").transition()
+                    .duration(50)
+                    .attr("r", (d.weight * 2+ 12)*1.5);
+    })
+
+		.on("mouseout", function(d){
+            node.classed("node-active", false);
+            link.classed("link-active", false);
+
+            d3.select(this).select("circle").transition()
+                    .duration(200)
+                    .attr("r", d.weight * 2+ 12);
+    });
+
   }
+
+
 
   function zoomed() {
     container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
