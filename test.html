@@ -45,44 +45,52 @@
 </head>
 
 <body>
-<script src="test-db/data.js"></script>
 <script>
 
 d3.json("http://designgeschichte.fh-potsdam.de/nodes", function (data){
+  d3.json("http://designgeschichte.fh-potsdam.de/edges", function (connections){
 
-var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
-var force = d3.layout.force()
-          .charge(-300)
-          .linkDistance(100)
-          .size([browserHeight, browserWidth]);
+  var force = d3.layout.force()
+            .charge(-300)
+            .linkDistance(100)
+            .size([browserHeight, browserWidth]);
 
-var zoom = d3.behavior.zoom()
-          .scaleExtent([0.1, 10])
-          .on("zoom", zoomed);
+  var zoom = d3.behavior.zoom()
+            .scaleExtent([0.1, 10])
+            .on("zoom", zoomed);
 
-var svg = d3.select("body").append("svg")
-          .attr("width", browserWidth)
-          .attr("height", browserHeight)
-          .append("g")
-          .call(zoom);
+  var svg = d3.select("body").append("svg")
+            .attr("width", browserWidth)
+            .attr("height", browserHeight)
+            .append("g")
+            .call(zoom);
+
+ var background = svg.append("rect")
+            .attr("width", browserWidth)
+            .attr("height", browserHeight)
+            .style("fill", "none")
+            .style("pointer-events", "all");
+
 
   var container = svg.append("g");
 
   force.nodes(data.nodes)
-          //.links(data.edges)
+          //.links(connections.edges)
           .start();
 
   var node = container.append("g")
                         .attr("class", "nodes")
                         .selectAll(".node")
-  .data(data.nodes)
-  .enter().append("g")
-  .attr("class", "node")
-                    .attr("cx", function(d) { return d.x; })
-                    .attr("cy", function(d) { return d.y; })
-                    //.call(drag);
+                        .data(data.nodes)
+                        .enter().append("g")
+                         .attr("class", "node")
+                         .attr("cx", function(d) { return d.x; })
+                         .attr("cy", function(d) { return d.y; })
+                         .attr("id", function (d) { return 'node-' + d.id });
+                         //.call(drag);
 
   var link = container.append("g")
                       .attr("class", "links")
@@ -90,21 +98,22 @@ var svg = d3.select("body").append("svg")
 
   node.append("circle")
     .attr("r", function(d) { return d.weight * 2+ 12; })
+    .append("title").text(function(d){ return "Name:" + d.name + " " + d.surname +" (ID: " + d.id + " )" })
     //.style("fill", function(d) { return color(1/d.rating); });
 
   force.on("tick", function() {
+    data.nodes.forEach (function(nodePos,i) {
+      nodePos.x = i * 15;
+    })
 
-  data.nodes.forEach (function(nodePos,i) {
-    nodePos.x = i * 15;
-  })
-
-      node.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ")"; });
+    node.attr("transform", function(d,i) { return "translate(" + d.x + "," + d.y + ")"; });
   });
 
-function zoomed() {
+  function zoomed() {
     container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   }
 
+});
 });
 </script>
 </body>
