@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <title>Design Geschichte InfoVis</title>
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="src/d3.js" charset="utf-8"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://d3js.org/queue.v1.min.js"></script>
 
@@ -31,6 +31,8 @@
 
 <body>
 <script>
+
+  var apiUrl = 'http://designgeschichte.fh-potsdam.de/';
 
   var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -66,33 +68,70 @@
   var container = svg.append("g");
 
   queue()
-    .defer(d3.json, 'http://designgeschichte.fh-potsdam.de/nodes')
-    .defer(d3.json, 'https://raw.githubusercontent.com/varusgarcia/Design-History-InfoVis/real-database/test-db/connection1.json')
+    .defer(d3.json, apiUrl + 'nodes')
+    .defer(d3.json, apiUrl + 'edges')
+    .defer(d3.json, apiUrl + 'edge/types')
     .await(makeLayout);
 
-  function makeLayout(error, nodesData, edgesData) {
-      force.nodes(nodesData.nodes)
-              .links(edgesData.edges)
-              .start();
+  function makeLayout(error, nodesData, edgesData, edgeTypesData) {
+
+      var edges = [];
+      var nodes = nodesData.nodes;
+      var types = edgeTypesData.types;
+
+      // prepare edges
+      edgesData.edges.forEach(function(e) {
+
+          var sourceNode = nodes.filter(function(n) {
+            return n.id === e.start_id;
+          })[0];
+
+          var targetNode = nodes.filter(function(n) {
+            return n.id === e.node_id;
+          })[0];
+
+          var type = types.filter(function(n) {
+            return n.id === e.type_id;
+          })[0];
+
+          // check if target node exists
+          // edge could be not deleted, but the node could.
+          if(sourceNode && targetNode) {
+            edges.push({
+                source: sourceNode,
+                target: targetNode,
+                /* debug
+                id: e.id,
+                start_id: e.start_id,
+                node_id: e.node_id,
+                */
+                weight: type.weight // connection weight
+            });
+          }
+      });
+
+      force.nodes(nodes)
+          .links(edges)
+          .start();
 
       var link = container.append("g")
-                          .attr("class", "links")
-                          .selectAll(".link")
-                          .data(edgesData.edges)
-                          .enter().append("line")
-                            .attr("class", "link")
-                            .style("stroke-width", 4);
+          .attr("class", "links")
+          .selectAll(".link")
+          .data(edges)
+          .enter().append("line")
+          .attr("class", "link")
+          .style("stroke-width", function(d) { return d.weight; }); // set stroke-width based on connection type
 
       var node = container.append("g")
-                            .attr("class", "nodes")
-                            .selectAll(".node")
-                            .data(nodesData.nodes)
-                            .enter().append("g")
-                             .attr("class", "node")
-                             .attr("cx", function(d) { return d.x; })
-                             .attr("cy", function(d) { return d.y; })
-                             .attr("id", function (d) { return 'node-' + d.id })
-                             .call(drag);
+          .attr("class", "nodes")
+          .selectAll(".node")
+          .data(nodes)
+          .enter().append("g")
+          .attr("class", "node")
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; })
+          .attr("id", function (d) { return 'node-' + d.id })
+          .call(drag);
 
 
       node.append("circle")
@@ -101,7 +140,7 @@
         //.style("fill", function(d) { return color(1/d.rating); });
 
       force.on("tick", function() {
-        nodesData.nodes.forEach (function(nodePos,i) {
+        nodes.forEach (function(nodePos,i) {
           nodePos.x = i * 15;
         })
 
@@ -114,7 +153,7 @@
       });
 
       var linkedByIndex = {};
-      edgesData.edges.forEach(function(d) {
+      edges.forEach(function(d) {
           linkedByIndex[d.source.index + "," + d.target.index] = 1;
       });
 
