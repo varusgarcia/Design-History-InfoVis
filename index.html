@@ -4,14 +4,9 @@
   <title>Design Geschichte InfoVis</title>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
   <link rel="stylesheet" href="main.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,300' rel='stylesheet' type='text/css'> <!-- Google Fonts -->
-  <script>
-  //hide loading animation when page is loaded
-    $(window).load(function(){
-      $('#loading-screen').fadeOut(300);
-    });
-  </script>
 </head>
 
 <body>
@@ -34,24 +29,21 @@
     <div class="column">
         <img class="image" src="test-db/images/Otl_Aicher.jpg" />
         <div class="name">[Name] [Nachname]</div>
-        <div class="profession">[Berufsbezeichnung]</div>
+        <div class="birthname">[Geburtsname]</div>
+        <div class="pseudonym">[Pseudonym]</div>
         <p>
-          <span class="birthday smallText">* [Geburtsdatum]</span><span class="birthplace smallText">[Geburtsort]</span><br>
-          <span class="day-of-death smallText">&dagger; [Sterbedatum]</span><span class="place-of-death smallText">[Sterbeort]</span>
-        </p>
-        <p>
-          Lebenspartner: <span class="ehefrau smallText">[Name Lebenspartner]</span>
-        </p>
-        <p>
-          <span class="subtitle">Kinder:</span><br>
-          <span class="kind1 smallText">[Name Kind 1]</span><br>
-          <span class="kind2 smallText">[Name Kind 2]</span>
+          <span class="birthday smallText">* [Geburtsdatum]</span><br>
+          <span class="day-of-death smallText">&dagger; [Sterbedatum]</span>
         </p>
         <p>
           <span class="subtitle">Institutionen:</span><br>
           <span class="institution smallText">[Institution 1]</span><br>
-          <span class="institution smallText">[Institution 1]</span><br>
-          <span class="institution smallText">[Institution 1]</span>
+          <span class="institution smallText">[Institution 2]</span><br>
+          <span class="institution smallText">[Institution 3]</span>
+        </p>
+        <p>
+          <span class="subtitle">Quelle:</span><br>
+          <span class="smallText">[URL zur Quelle]</span>
         </p>
     </div>
 

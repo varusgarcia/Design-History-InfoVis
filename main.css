@@ -99,6 +99,7 @@ svg {
   background: none;
   z-index: 1;
   cursor: all-scroll;
+  shape-rendering: optimizeSpeed;
 }
 
 svg rect {
@@ -198,6 +199,7 @@ div.infoDropdown {
   height: 200px;
   margin: 50px auto;
   border-radius: 150px;
+  object-fit: cover;
 }
 
 .infoDropdown .name {
@@ -206,11 +208,20 @@ div.infoDropdown {
   margin-left: 80px;
 }
 
-.infoDropdown .profession {
+.infoDropdown .birthname {
   font-size: 25px;
   text-align: left;
-  margin-bottom: 40px;
   margin-left: 80px;
+}
+
+.infoDropdown .pseudonym {
+  font-size: 18px;
+  text-align: left;
+  margin-left: 80px;
+}
+
+.infoDropdown .birthday {
+  margin-top: 60px;
 }
 
 .infoDropdown .smallText {
@@ -219,6 +230,7 @@ div.infoDropdown {
 
 .infoDropdown p {
   margin: 15px 80px;
+  opacity: 0.8;
 }
 
 .infoDropdown .title {
