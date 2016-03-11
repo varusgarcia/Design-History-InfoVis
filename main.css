@@ -246,6 +246,12 @@ div.infoDropdown {
   margin-top: 60px;
   height: 65%;
   overflow-y: auto;
+  opacity: 0.8;
+}
+
+.infoDropdown .vitaText p {
+  margin: 0px 0px 10px 0px;
+  opacity: 1;
 }
 
 .infoDropdown .titleVerbindugen {

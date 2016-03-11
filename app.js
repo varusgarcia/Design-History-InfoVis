@@ -210,7 +210,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                                         .attr('id', "clipMask")
                                         // use the rectangle to specify the clip path itself
                                         .append('rect')
-                                          .attr("x", function(d) { return d.weight * -2 + baseCircleRadius; })
+                                          .attr("x", function(d) { return d.weight * -2 - baseCircleRadius; })
                                           .attr("y", 10)
                                           .attr("width", function(d) { return (d.weight * 2 + baseCircleRadius)*2; })
                                           .attr("height", function(d) { return d.weight * 2 + baseCircleRadius; });
@@ -263,7 +263,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // ---------------------------------------------------------------------------
   // handling the node+edge highlight for mouse events
   nodeBlock.on("mouseover", function(d){
-      node.select("circle").classed("node-active", function(o) {
+      node.classed("node-active", function(o) {
           thisOpacity = isConnected(d, o) ? true : false;
           this.setAttribute('fill-opacity', thisOpacity);
           return thisOpacity;
@@ -309,7 +309,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("click", function (d) {
         if (d3.event.defaultPrevented) return;
-        return window.open(d.Quelle);
+        return window.open(d.edge_src);
       });
 
 
@@ -347,7 +347,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
         infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
         infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
 
-        infoDropdown.select(".vitaText").html(d.vita)
+        infoDropdown.select(".vitaText").html(d.vita_html)
 
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
