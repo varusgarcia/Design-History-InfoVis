@@ -44,7 +44,7 @@
   var onlyYear = d3.time.format("%Y");
 
   var force = d3.layout.force()
-            .charge(-300)
+            .charge(function (d) {return d.weight * -1000})
             .linkDistance(100)
             .size([browserHeight, browserWidth]);
 
