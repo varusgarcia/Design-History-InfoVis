@@ -321,6 +321,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   d3.selectAll("g.node")
       .on("mouseover", function (d) {
           tooltip.style("visibility", "visible")
+          tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
           tooltip.select(".birthday").html("geb. " + dateformat(new Date(d.date_birth)))
           tooltip.select(".day-of-death").html("gest. " + dateformat(new Date(d.date_death)))
@@ -346,6 +347,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
         infoDropdown.select(".pseudonym").html(d.pseudonym)
         infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
         infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
+        infoDropdown.select(".source").html(d.source).attr("href", d.source)
 
         infoDropdown.select(".vitaText").html(d.vita_html)
 
