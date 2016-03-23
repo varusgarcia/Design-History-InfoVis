@@ -323,8 +323,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
           tooltip.style("visibility", "visible")
           tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html("geb. " + dateformat(new Date(d.date_birth)))
-          tooltip.select(".day-of-death").html("gest. " + dateformat(new Date(d.date_death)))
+          tooltip.select(".birthday").html(dateOnlyYear(new Date(d.date_birth)))
+          tooltip.select(".day-of-death").html(dateOnlyYear(new Date(d.date_death)))
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
