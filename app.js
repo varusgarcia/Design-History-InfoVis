@@ -6,7 +6,14 @@ var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
 var dateformat = d3.time.format("%d. %B %Y");
-var dateOnlyYear = d3.time.format("%Y");
+var dateOnlyYear = function(date) {
+  var year = d3.time.format("%Y");
+  date = new Date(date);
+  if(date) {
+    return year(date);
+  }
+  return 1337;
+}
 
 
 // -----------------------------------------------------------------------------
@@ -175,7 +182,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                   .attr("id", function (d) { return 'node-' + d.id })
                   .attr('class', 'node')
                   .attr("transform", function(d) {
-                    return "translate("+(((new Date(d.date_birth).getFullYear()) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
+                    return "translate("+((dateOnlyYear(d.date_birth) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
                   })
                   .call(drag);
 /*
@@ -234,7 +241,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   force.on("tick", function() {
     nodes.forEach (function(d,i) {
       //d.x = i * 15;
-      d.x = xscale(dateOnlyYear(new Date(d.date_birth)));
+      d.x = xscale(dateOnlyYear(d.date_birth));
     })
 
     // update the connection lines
@@ -323,8 +330,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
           tooltip.style("visibility", "visible")
           tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html(dateOnlyYear(new Date(d.date_birth)))
-          tooltip.select(".day-of-death").html(dateOnlyYear(new Date(d.date_death)))
+          tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
+          tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
