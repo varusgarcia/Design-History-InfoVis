@@ -127,6 +127,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       // edge could be not deleted, but the node could.
       if(sourceNode && targetNode) {
         edges.push({
+            type: e.type_id,
             source: sourceNode,
             target: targetNode,
             /* debug
@@ -303,7 +304,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
           d3.select(this).style("opacity", "1")
-          return connectionPopover.style("visibility", "visible").select(".role").html(edges.type_id);
+          var edgeType = edgeTypesData.types[d.type - 1];
+          return connectionPopover.style("visibility", "visible").select(".role").html('<h4>' + edgeType.title + '</h4><p>' + edgeType.description + '</p>');
       })
       .on("mousemove", function () {
           return connectionPopover
