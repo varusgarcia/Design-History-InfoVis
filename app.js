@@ -187,24 +187,6 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                     return "translate("+((dateOnlyYear(d.date_birth) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
                   })
                   .call(drag);
-/*
-  // CIRCLE IMAGE
-  var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
-  var nodeImage = imgdefs.append("pattern")
-                        .attr("id", function(d) { return "nodeImage" + d.id })
-                        .attr("height", 1)
-                        .attr("width", 1)
-                        .attr("x", "0")
-                        .attr("y", "0");
-
-  nodeImage.append("image")
-     .attr("x", 0)
-     .attr("y", 0)
-     .attr("height", circleRadius*2)
-     .attr("width", circleRadius*2)
-     .attr("preserveAspectRatio", "xMinYMin slice")
-     .attr("xlink:href", function (d) { return d.image_src }); // well they all provided external links ... but thats not whats the field was for ... ^^
-     */
 
   // CIRLCES
   var node = nodeBlock.append("circle")
@@ -213,26 +195,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                 .attr("stroke", "#00729c")
                 .attr("stroke-width", circleStrokeWidth);
 
-  // TEXT BACKGROUND
-  var labelsBackgroundMask = nodeBlock.append("clipPath")
-                                        // make an id unique to this node
-                                        .attr('id', "clipMask")
-                                        // use the rectangle to specify the clip path itself
-                                        .append('rect')
-                                          .attr("x", function(d) { return d.weight * -2 - baseCircleRadius; })
-                                          .attr("y", 10)
-                                          .attr("width", function(d) { return (d.weight * 2 + baseCircleRadius)*2; })
-                                          .attr("height", function(d) { return d.weight * 2 + baseCircleRadius; });
-
-  var labelsBackground = nodeBlock.append("circle")
-                                    .attr("clip-path", "url(#clipMask)")
-                                    .attr("r", function(d) { return d.weight * 2 + baseCircleRadius; })
-                                    .attr("fill", "black")
-                                    .attr("opacity", "0.8");
-
   // TEXT LABELS
   var labels = nodeBlock.append("text")
-                .attr("dy", function(d){ return 30 })
+                .attr("dy", function(d){ return d.weight * 2 + baseCircleRadius + 20 })
                 .attr("fill", "white")
                 .attr("text-anchor", "middle")
                 .text(function(d){ return d.surname });
