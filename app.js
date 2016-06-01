@@ -305,7 +305,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       .on("mouseover", function (d) {
           d3.select(this).style("opacity", "1")
           var edgeType = edgeTypesData.types[d.type - 1];
-          return connectionPopover.style("visibility", "visible").select(".role").html('<h4>' + edgeType.title + '</h4><p>' + edgeType.description + '</p>');
+          return connectionPopover.style("visibility", "visible").select(".head").html("<div class=\"role\">" + edgeType.title + "</div><div class=\"description\">" + edgeType.description + "</div>");
       })
       .on("mousemove", function () {
           return connectionPopover
