@@ -135,7 +135,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
             start_id: e.start_id,
             node_id: e.node_id,
             */
-            weight: type.weight // connection weight
+            weight: type.weight, // connection weight
+            edgeSource: e.edge_src
         });
       }
   });
@@ -318,7 +319,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("click", function (d) {
         if (d3.event.defaultPrevented) return;
-        return window.open(d.edge_src);
+        return window.open(d.edgeSource);
       });
 
 
