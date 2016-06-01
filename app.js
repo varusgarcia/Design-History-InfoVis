@@ -6,7 +6,14 @@ var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
 var dateformat = d3.time.format("%d. %B %Y");
-var dateOnlyYear = d3.time.format("%Y");
+var dateOnlyYear = function(date) {
+  var year = d3.time.format("%Y");
+  date = new Date(date);
+  if(date) {
+    return year(date);
+  }
+  return 1337;
+}
 
 
 // -----------------------------------------------------------------------------
@@ -120,6 +127,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       // edge could be not deleted, but the node could.
       if(sourceNode && targetNode) {
         edges.push({
+            type: e.type_id,
             source: sourceNode,
             target: targetNode,
             /* debug
@@ -127,7 +135,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
             start_id: e.start_id,
             node_id: e.node_id,
             */
-            weight: type.weight // connection weight
+            weight: type.weight, // connection weight
+            edgeSource: e.edge_src
         });
       }
   });
@@ -175,27 +184,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                   .attr("id", function (d) { return 'node-' + d.id })
                   .attr('class', 'node')
                   .attr("transform", function(d) {
-                    return "translate("+(((new Date(d.date_birth).getFullYear()) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
+                    return "translate("+((dateOnlyYear(d.date_birth) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
                   })
                   .call(drag);
-/*
-  // CIRCLE IMAGE
-  var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
-  var nodeImage = imgdefs.append("pattern")
-                        .attr("id", function(d) { return "nodeImage" + d.id })
-                        .attr("height", 1)
-                        .attr("width", 1)
-                        .attr("x", "0")
-                        .attr("y", "0");
-
-  nodeImage.append("image")
-     .attr("x", 0)
-     .attr("y", 0)
-     .attr("height", circleRadius*2)
-     .attr("width", circleRadius*2)
-     .attr("preserveAspectRatio", "xMinYMin slice")
-     .attr("xlink:href", function (d) { return d.image_src }); // well they all provided external links ... but thats not whats the field was for ... ^^
-     */
 
   // CIRLCES
   var node = nodeBlock.append("circle")
@@ -204,26 +195,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                 .attr("stroke", "#00729c")
                 .attr("stroke-width", circleStrokeWidth);
 
-  // TEXT BACKGROUND
-  var labelsBackgroundMask = nodeBlock.append("clipPath")
-                                        // make an id unique to this node
-                                        .attr('id', "clipMask")
-                                        // use the rectangle to specify the clip path itself
-                                        .append('rect')
-                                          .attr("x", function(d) { return d.weight * -2 - baseCircleRadius; })
-                                          .attr("y", 10)
-                                          .attr("width", function(d) { return (d.weight * 2 + baseCircleRadius)*2; })
-                                          .attr("height", function(d) { return d.weight * 2 + baseCircleRadius; });
-
-  var labelsBackground = nodeBlock.append("circle")
-                                    .attr("clip-path", "url(#clipMask)")
-                                    .attr("r", function(d) { return d.weight * 2 + baseCircleRadius; })
-                                    .attr("fill", "black")
-                                    .attr("opacity", "0.8");
-
   // TEXT LABELS
   var labels = nodeBlock.append("text")
-                .attr("dy", function(d){ return 30 })
+                .attr("dy", function(d){ return d.weight * 2 + baseCircleRadius + 20 })
                 .attr("fill", "white")
                 .attr("text-anchor", "middle")
                 .text(function(d){ return d.surname });
@@ -234,7 +208,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   force.on("tick", function() {
     nodes.forEach (function(d,i) {
       //d.x = i * 15;
-      d.x = xscale(dateOnlyYear(new Date(d.date_birth)));
+      d.x = xscale(dateOnlyYear(d.date_birth));
     })
 
     // update the connection lines
@@ -296,7 +270,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
           d3.select(this).style("opacity", "1")
-          return connectionPopover.style("visibility", "visible").select(".role").html(edges.type_id);
+          var edgeType = edgeTypesData.types[d.type - 1];
+          return connectionPopover.style("visibility", "visible").select(".head").html("<div class=\"role\">" + edgeType.title + "</div><div class=\"description\">" + edgeType.description + "</div>");
       })
       .on("mousemove", function () {
           return connectionPopover
@@ -309,7 +284,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("click", function (d) {
         if (d3.event.defaultPrevented) return;
-        return window.open(d.edge_src);
+        return window.open(d.edgeSource);
       });
 
 
@@ -323,8 +298,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
           tooltip.style("visibility", "visible")
           tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html(dateOnlyYear(new Date(d.date_birth)))
-          tooltip.select(".day-of-death").html(dateOnlyYear(new Date(d.date_death)))
+          tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
+          tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
