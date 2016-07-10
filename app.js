@@ -52,11 +52,11 @@ var force = d3.layout.force()
           .size([browserHeight, browserWidth]);
 
 // implementing the drag behavior for the nodes
-var drag = d3.behavior.drag()
+/*var drag = d3.behavior.drag()
           .origin(function(d) { return d; })
           .on("dragstart", dragstarted)
           .on("drag", dragged)
-          .on("dragend", dragended);
+          .on("dragend", dragended);*/
 
 // look scaleExtent values ...
 // if base scale is max (10 -> last scaleExtent value), you cant zoom in, only zoom out
@@ -167,9 +167,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .enter()
               .insert("line", ":first-child")
                 .attr('class', 'connection')
-                .attr("stroke", "white")
-                .style("stroke-width", function(d) { return d.weight * 2; }) // set stroke-width based on connection type
-                .style("opacity", "0.2");
+                .attr("stroke", "rgba(255,255,255,.2)")
+                .style("stroke-width", function(d) { return d.weight * 2; }); // set stroke-width based on connection type
+
 
 
   // ---------------------------------------------------------------------------
@@ -186,7 +186,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                   .attr("transform", function(d) {
                     return "translate("+((dateOnlyYear(d.date_birth) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
                   })
-                  .call(drag);
+                  //.call(drag);
 
   // CIRLCES
   var node = nodeBlock.append("circle")
@@ -269,7 +269,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
-          d3.select(this).style("opacity", "1")
+          //d3.select(this).style("opacity", "1")
           var edgeType = edgeTypesData.types[d.type - 1];
           return connectionPopover.style("visibility", "visible").select(".head").html("<div class=\"role\">" + edgeType.title + "</div><div class=\"description\">" + edgeType.description + "</div>");
       })
@@ -279,7 +279,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .style("left", (d3.event.pageX + 16) + "px");
       })
       .on("mouseout", function () {
-        d3.select(this).style("opacity", "0.2")
+        //d3.select(this).style("opacity", "0.2")
         return connectionPopover.style("visibility", "hidden");
       })
       .on("click", function (d) {
@@ -301,14 +301,23 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
           tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
           tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
-
+//nodeBlock.style("opacity", .2)
           // change attributes for connected lines to selected node
           link.style('stroke-width', function(l) {
             if (d === l.source || d === l.target)
-              return 40;
+              return 5;
             else
               return 2;
-            });
+
+                })
+                link.style('stroke', function(l) {
+                    if (d === l.source || d === l.target)
+                      return "#ff7f18";
+                    else
+                      return 'rgba(255,255,255,.2)';
+                    });
+
+
 
           // change style for highlighted node
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
@@ -321,6 +330,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
         link.style("stroke-width", function(d) { return d.weight * 2; })
+        link.style('stroke', "rgba(255,255,255,.2)");
+
         return tooltip.style("visibility", "hidden");
       })
       .on("click", function (d) {
