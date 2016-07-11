@@ -11,8 +11,9 @@
 
 <body>
   <nav>
-    <div id="headline"><img id="headline-logo" src="images/fhp-logo_mini.png"/>FH Potsdam - Design Geschichte InfoVis</div>
+    <div id="headline"><img id="headline-logo" src="images/fhp-logo_mini.png"/>FH Potsdam - Design Geschichte InfoVis [BETA v0.2]</div>
     <a href="about.html">Über das Projekt</a>
+    <a href="https://github.com/varusgarcia/Design-History-InfoVis/issues" target="_blank">Fehler melden</a>
   </nav>
 
   <div id="loading-screen">
@@ -43,7 +44,7 @@
         </p>
         <p>
           <span class="subtitle">Quelle:</span><br>
-          <span class="smallText">[URL zur Quelle]</span>
+          <span class="smallText"><a class="source" href="" target="_blank">[URL zur Quelle]</a></span>
         </p>
     </div>
 
@@ -63,11 +64,18 @@
 
   <!-- Mouse Tootlip -->
   <div class="tooltip">
-    <div class="name">Name Nachname</div>
-    <div class="birthday">geb. Datum in Ort</div>
-    <div class="day-of-death">gest. Datum in Ort</div>
-    <div class="hint">Klicken für mehr Informationen!</div>
+    <img class="image" src="" />
+    <div class="text">
+      <div class="name">Name Nachname</div>
+      <div>
+        <span class="birthday">Geburtsjahr</span> - <span class="day-of-death">Todesjahr</span>
+      </div>
+      <div class="hint">Klicken für mehr Informationen!</div>
+    </div>
   </div>
-  <div class="connectionPopover"><div class="names"></div><div class="role">#Student</div></div>
+  <div class="connectionPopover text">
+    <div class="head"></div>
+    <div class="hint">Klicken für Quellenverweis!</div>
+  </div>
 </body>
 </html>

@@ -6,7 +6,14 @@ var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
 var dateformat = d3.time.format("%d. %B %Y");
-var dateOnlyYear = d3.time.format("%Y");
+var dateOnlyYear = function(date) {
+  var year = d3.time.format("%Y");
+  date = new Date(date);
+  if(date) {
+    return year(date);
+  }
+  return 1337;
+}
 
 
 // -----------------------------------------------------------------------------
@@ -45,11 +52,11 @@ var force = d3.layout.force()
           .size([browserHeight, browserWidth]);
 
 // implementing the drag behavior for the nodes
-var drag = d3.behavior.drag()
+/*var drag = d3.behavior.drag()
           .origin(function(d) { return d; })
           .on("dragstart", dragstarted)
           .on("drag", dragged)
-          .on("dragend", dragended);
+          .on("dragend", dragended);*/
 
 // look scaleExtent values ...
 // if base scale is max (10 -> last scaleExtent value), you cant zoom in, only zoom out
@@ -120,6 +127,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       // edge could be not deleted, but the node could.
       if(sourceNode && targetNode) {
         edges.push({
+            type: e.type_id,
             source: sourceNode,
             target: targetNode,
             /* debug
@@ -127,7 +135,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
             start_id: e.start_id,
             node_id: e.node_id,
             */
-            weight: type.weight // connection weight
+            weight: type.weight, // connection weight
+            edgeSource: e.edge_src
         });
       }
   });
@@ -158,9 +167,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .enter()
               .insert("line", ":first-child")
                 .attr('class', 'connection')
-                .attr("stroke", "white")
-                .style("stroke-width", function(d) { return d.weight * 2; }) // set stroke-width based on connection type
-                .style("opacity", "0.2");
+                .attr("stroke", "rgba(255,255,255,.2)")
+                .style("stroke-width", function(d) { return d.weight * 2; }); // set stroke-width based on connection type
+
 
 
   // ---------------------------------------------------------------------------
@@ -175,27 +184,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                   .attr("id", function (d) { return 'node-' + d.id })
                   .attr('class', 'node')
                   .attr("transform", function(d) {
-                    return "translate("+(((new Date(d.date_birth).getFullYear()) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
+                    return "translate("+((dateOnlyYear(d.date_birth) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
                   })
-                  .call(drag);
-/*
-  // CIRCLE IMAGE
-  var imgdefs = nodeBlock.append("defs").attr("id", "imgdefs")
-  var nodeImage = imgdefs.append("pattern")
-                        .attr("id", function(d) { return "nodeImage" + d.id })
-                        .attr("height", 1)
-                        .attr("width", 1)
-                        .attr("x", "0")
-                        .attr("y", "0");
-
-  nodeImage.append("image")
-     .attr("x", 0)
-     .attr("y", 0)
-     .attr("height", circleRadius*2)
-     .attr("width", circleRadius*2)
-     .attr("preserveAspectRatio", "xMinYMin slice")
-     .attr("xlink:href", function (d) { return d.image_src }); // well they all provided external links ... but thats not whats the field was for ... ^^
-     */
+                  //.call(drag);
 
   // CIRLCES
   var node = nodeBlock.append("circle")
@@ -204,26 +195,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                 .attr("stroke", "#00729c")
                 .attr("stroke-width", circleStrokeWidth);
 
-  // TEXT BACKGROUND
-  var labelsBackgroundMask = nodeBlock.append("clipPath")
-                                        // make an id unique to this node
-                                        .attr('id', "clipMask")
-                                        // use the rectangle to specify the clip path itself
-                                        .append('rect')
-                                          .attr("x", function(d) { return d.weight * -2 + baseCircleRadius; })
-                                          .attr("y", 10)
-                                          .attr("width", function(d) { return (d.weight * 2 + baseCircleRadius)*2; })
-                                          .attr("height", function(d) { return d.weight * 2 + baseCircleRadius; });
-
-  var labelsBackground = nodeBlock.append("circle")
-                                    .attr("clip-path", "url(#clipMask)")
-                                    .attr("r", function(d) { return d.weight * 2 + baseCircleRadius; })
-                                    .attr("fill", "black")
-                                    .attr("opacity", "0.8");
-
   // TEXT LABELS
   var labels = nodeBlock.append("text")
-                .attr("dy", function(d){ return 30 })
+                .attr("dy", function(d){ return d.weight * 2 + baseCircleRadius + 20 })
                 .attr("fill", "white")
                 .attr("text-anchor", "middle")
                 .text(function(d){ return d.surname });
@@ -234,7 +208,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   force.on("tick", function() {
     nodes.forEach (function(d,i) {
       //d.x = i * 15;
-      d.x = xscale(dateOnlyYear(new Date(d.date_birth)));
+      d.x = xscale(dateOnlyYear(d.date_birth));
     })
 
     // update the connection lines
@@ -263,7 +237,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // ---------------------------------------------------------------------------
   // handling the node+edge highlight for mouse events
   nodeBlock.on("mouseover", function(d){
-      node.select("circle").classed("node-active", function(o) {
+      node.classed("node-active", function(o) {
           thisOpacity = isConnected(d, o) ? true : false;
           this.setAttribute('fill-opacity', thisOpacity);
           return thisOpacity;
@@ -295,8 +269,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
-          d3.select(this).style("opacity", "1")
-          return connectionPopover.style("visibility", "visible").select(".role").html(edges.type_id);
+          //d3.select(this).style("opacity", "1")
+          var edgeType = edgeTypesData.types[d.type - 1];
+          return connectionPopover.style("visibility", "visible").select(".head").html("<div class=\"role\">" + edgeType.title + "</div><div class=\"description\">" + edgeType.description + "</div>");
       })
       .on("mousemove", function () {
           return connectionPopover
@@ -304,12 +279,12 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .style("left", (d3.event.pageX + 16) + "px");
       })
       .on("mouseout", function () {
-        d3.select(this).style("opacity", "0.2")
+        //d3.select(this).style("opacity", "0.2")
         return connectionPopover.style("visibility", "hidden");
       })
       .on("click", function (d) {
         if (d3.event.defaultPrevented) return;
-        return window.open(d.Quelle);
+        return window.open(d.edgeSource);
       });
 
 
@@ -320,10 +295,31 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   d3.selectAll("g.node")
       .on("mouseover", function (d) {
+          // show and fill the popover
           tooltip.style("visibility", "visible")
+          tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html("geb. " + dateformat(new Date(d.date_birth)))
-          tooltip.select(".day-of-death").html("gest. " + dateformat(new Date(d.date_death)))
+          tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
+          tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
+//nodeBlock.style("opacity", .2)
+          // change attributes for connected lines to selected node
+          link.style('stroke-width', function(l) {
+            if (d === l.source || d === l.target)
+              return 5;
+            else
+              return 2;
+
+                })
+                link.style('stroke', function(l) {
+                    if (d === l.source || d === l.target)
+                      return "#ff7f18";
+                    else
+                      return 'rgba(255,255,255,.2)';
+                    });
+
+
+
+          // change style for highlighted node
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
@@ -333,6 +329,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
+        link.style("stroke-width", function(d) { return d.weight * 2; })
+        link.style('stroke', "rgba(255,255,255,.2)");
+
         return tooltip.style("visibility", "hidden");
       })
       .on("click", function (d) {
@@ -346,8 +345,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
         infoDropdown.select(".pseudonym").html(d.pseudonym)
         infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
         infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
+        infoDropdown.select(".source").html(d.source).attr("href", d.source)
 
-        infoDropdown.select(".vitaText").html(d.vita)
+        infoDropdown.select(".vitaText").html(d.vita_html)
 
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
