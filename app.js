@@ -168,7 +168,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .insert("line", ":first-child")
                 .attr('class', 'connection')
                 .attr("stroke", "rgba(255,255,255,.2)")
-                .style("stroke-width", function(d) { return d.weight * 2; }); // set stroke-width based on connection type
+                .style("stroke-width", function(d) { return d.weight * 1.3; }); // set stroke-width based on connection type
 
 
 
@@ -307,14 +307,14 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
             if (d === l.source || d === l.target)
               return 5;
             else
-              return 2;
+              return 1;
 
                 })
                 link.style('stroke', function(l) {
                     if (d === l.source || d === l.target)
                       return "#ff7f18";
                     else
-                      return 'rgba(255,255,255,.2)';
+                      return 'rgba(255,255,255,.1)';
                     });
 
 
