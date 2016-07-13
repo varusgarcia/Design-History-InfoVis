@@ -1,7 +1,7 @@
 var apiUrl = 'http://designgeschichte.fh-potsdam.de/';
 var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-var startDate = 1870;
+var startDate = 1800;
 var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
@@ -22,8 +22,12 @@ var panExtent = {x: [new Date(startDate, 0, 1), new Date(2016, 0, 1)], y: [0,400
 
 // create the Scale we will use for the xAxis
 var yearsAxisScale = d3.time.scale()
-                  .domain([new Date(startDate, 0, 1), new Date(2350, 0, 1)])
-                  .range([0,browserWidth-80]);
+                  .domain([new Date(startDate, 0, 1), new Date(2016, 0, 1)])
+                  .range([0, browserWidth - 80]);
+
+// creating the scale for the x-Achsis
+var dom = [startDate, 2016];
+var xscale = d3.scale.linear().domain(dom).range([0, browserWidth * 10]);
 
 // create the Scale we will use for the yAxis
 var yAxisScale = d3.scale.linear()
@@ -62,14 +66,14 @@ var force = d3.layout.force()
 // if base scale is max (10 -> last scaleExtent value), you cant zoom in, only zoom out
 // if base scale is min (1 -> first scaleExtent value), you cant zoom out, only zoom in
 // if base scale is in the middle (5), you can zoom in and zoom out
-var baseScale = 10;
+
+var baseScale = 15;
 var zoom = d3.behavior.zoom()
     .x(yearsAxisScale)
     .y(yAxisScale)
     .scale(baseScale)
-    .scaleExtent([1, 10])
+    .scaleExtent([10, 50])
     .on("zoom", zoomed);
-
 
 // -----------------------------------------------------------------------------
 // CREATE THE SVG
@@ -143,9 +147,6 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
 
   // ---------------------------------------------------------------------------
-  // creating the scale for the x-Achsis
-  var dom = [1850,2000];
-  var xscale = d3.scale.linear().domain(dom).range([20,8000]);
 
   // binding the data to the force layout
   force.nodes(nodes)
@@ -154,8 +155,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   // Define the data for the node groups
   var contentGroup = svg.append("g")
-                      .attr('class', 'contentGroup');
-
+                      .attr('class', 'contentGroup')
+                      .attr('transform', 'scale(.2)');
 
   // ---------------------------------------------------------------------------
   // NODE EDGES/CONNECTIONS
@@ -168,7 +169,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .insert("line", ":first-child")
                 .attr('class', 'connection')
                 .attr("stroke", "rgba(255,255,255,.2)")
-                .style("stroke-width", function(d) { return d.weight * 1.3; }); // set stroke-width based on connection type
+                .style("stroke-width", function(d) { return d.weight * .2; }); // set stroke-width based on connection type
 
 
 
@@ -191,8 +192,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // CIRLCES
   var node = nodeBlock.append("circle")
                 .attr("r", function(d) { return d.weight * 2 + baseCircleRadius; })
-                .attr("fill", "#00506E")
-                .attr("stroke", "#00729c")
+                .attr("fill", "rgba(0,80,110,255)")
+                .attr("stroke", "rgba(0,114,156,255)")
                 .attr("stroke-width", circleStrokeWidth);
 
   // TEXT LABELS
@@ -236,31 +237,31 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   // ---------------------------------------------------------------------------
   // handling the node+edge highlight for mouse events
-  nodeBlock.on("mouseover", function(d){
-      node.classed("node-active", function(o) {
-          thisOpacity = isConnected(d, o) ? true : false;
-          this.setAttribute('fill-opacity', thisOpacity);
-          return thisOpacity;
-      });
-
-      link.classed("link-active", function(o) {
-          return o.source === d || o.target === d ? true : false;
-      });
-
-      d3.select(this).classed("node-active", true);
-      d3.select(this).select("circle").transition()
-              .duration(50)
-              .attr("r", (d.weight * 2 + baseCircleRadius)*1.2);
-  });
-
-  nodeBlock.on("mouseout", function(d){
-      node.classed("node-active", false);
-      link.classed("link-active", false);
-
-      d3.select(this).select("circle").transition()
-              .duration(200)
-              .attr("r", d.weight * 2 + baseCircleRadius);
-  });
+  // nodeBlock.on("mouseover", function(d){
+  //     node.classed("node-active", function(o) {
+  //         thisOpacity = isConnected(d, o) ? true : false;
+  //         this.setAttribute('fill-opacity', thisOpacity);
+  //         return thisOpacity;
+  //     });
+  //
+  //     link.classed("link-active", function(o) {
+  //         return o.source === d || o.target === d ? true : false;
+  //     });
+  //
+  //     d3.select(this).classed("node-active", true);
+  //     d3.select(this).select("circle").transition()
+  //             .duration(50)
+  //             .attr("r", (d.weight * 2 + baseCircleRadius)*1.2);
+  // });
+  //
+  // nodeBlock.on("mouseout", function(d){
+  //     node.classed("node-active", false);
+  //     link.classed("link-active", false);
+  //
+  //     d3.select(this).select("circle").transition()
+  //             .duration(200)
+  //             .attr("r", d.weight * 2 + baseCircleRadius);
+  // });
 
 
   // ---------------------------------------------------------------------------
@@ -292,6 +293,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // HANDLE THE INFO POPOVERS AND DORPDOWNS
   var tooltip = d3.select("div.tooltip");
   var infoDropdown = d3.select("div.infoDropdown");
+  var target_node = [];
 
   d3.selectAll("g.node")
       .on("mouseover", function (d) {
@@ -301,26 +303,76 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
           tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
           tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
-//nodeBlock.style("opacity", .2)
+          //nodeBlock.style("opacity", .2)
+
           // change attributes for connected lines to selected node
+
           link.style('stroke-width', function(l) {
             if (d === l.source || d === l.target)
-              return 5;
+              return 9;
             else
               return 1;
+          });
 
-                })
-                link.style('stroke', function(l) {
-                    if (d === l.source || d === l.target)
-                      return "#ff7f18";
-                    else
-                      return 'rgba(255,255,255,.1)';
-                    });
+          link.style('stroke', function(l) {
+            if (d === l.source || d === l.target) {
+              if (l.target != d) {
+                target_node.push(l.target);
+              } else if (l.source != d) {
+                target_node.push(l.source);
+              }
+              return "#ff7f18";
+            }  else {
+              return 'rgba(255,255,255,.1)';
+            }
+          });
 
+          node.attr('r', function(n) {
+            if (target_node.indexOf(n) > -1) {
+              return n.weight * 2 + baseCircleRadius;
+             }
+            else {
+              return '10';
+            }
+          });
 
+          node.attr('fill', function(n) {
+            if (target_node.indexOf(n) > -1) {
+              return "rgba(0,80,110,1)";
+             }
+            else {
+              return 'rgba(0,80,110,.3)';
+            }
+          });
+
+          node.attr('stroke', function(n) {
+            if (target_node.indexOf(n) > -1) {
+              return "rgba(0,114,156,1)";
+             }
+            else {
+              return 'rgba(0,114,156,.3)';
+            }
+          });
+
+          labels.attr('fill', function(n) {
+            if (target_node.indexOf(n) > -1) {
+              return "#fff";
+             }
+            else {
+              return 'rgba(255,255,255,.3)';
+            }
+          });
+
+          target_node = [];
+
+                //link.style("stroke-width", function(d) { return d.weight * 1; });
 
           // change style for highlighted node
-          return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
+          d3.select(this).select("circle")
+            .attr("r", d.weight * 2 + baseCircleRadius)
+            .attr("stroke-width", circleStrokeWidth+2)
+            .attr("fill", "rgba(0,80,110,1)")
+            .attr("stroke", "rgba(0,114,156,1)");
       })
       .on("mousemove", function () {
           return tooltip
@@ -329,8 +381,24 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
-        link.style("stroke-width", function(d) { return d.weight * 2; })
+        link.style("stroke-width", function(d) { return d.weight * .2; })
         link.style('stroke', "rgba(255,255,255,.2)");
+
+        node.attr('r', function(n) {
+          return n.weight * 2 + baseCircleRadius;
+        });
+
+        node.attr('fill', function(n) {
+          return "rgba(0,80,110,1)";
+        });
+
+        node.attr('stroke', function(n) {
+          return "rgba(0,114,156,1)";
+        });
+
+        labels.attr('fill', function(n) {
+          return '#fff';
+        });
 
         return tooltip.style("visibility", "hidden");
       })
@@ -398,7 +466,7 @@ function zoomed() {
 }
 
 function transform(d) {
-  var scale = d3.event.scale;
+  var scale = d3.event.scale * .2;
   var translate = d3.event.translate;
 
   scale = (scale / baseScale);
