@@ -140,6 +140,20 @@ div.tooltip, div.connectionPopover {
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.3);
 }
 
+div.tooltip img {
+  display: inline;
+  float: left;
+  margin-right: 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 150px;
+  object-fit: cover;
+}
+
+div.tooltip .text {
+    display: inline-block;
+}
+
 div.tooltip .name {
   font-size: 20px;
   font-weight: bold;
@@ -246,6 +260,12 @@ div.infoDropdown {
   margin-top: 60px;
   height: 65%;
   overflow-y: auto;
+  opacity: 0.8;
+}
+
+.infoDropdown .vitaText p {
+  margin: 0px 0px 10px 0px;
+  opacity: 1;
 }
 
 .infoDropdown .titleVerbindugen {

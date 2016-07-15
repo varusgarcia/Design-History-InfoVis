@@ -6,7 +6,14 @@ var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
 var dateformat = d3.time.format("%d. %B %Y");
-var dateOnlyYear = d3.time.format("%Y");
+var dateOnlyYear = function(date) {
+  var year = d3.time.format("%Y");
+  date = new Date(date);
+  if(date) {
+    return year(date);
+  }
+  return 1337;
+}
 
 
 // -----------------------------------------------------------------------------
@@ -120,6 +127,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       // edge could be not deleted, but the node could.
       if(sourceNode && targetNode) {
         edges.push({
+            type: e.type_id,
             source: sourceNode,
             target: targetNode,
             /* debug
@@ -175,7 +183,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                   .attr("id", function (d) { return 'node-' + d.id })
                   .attr('class', 'node')
                   .attr("transform", function(d) {
-                    return "translate("+(((new Date(d.date_birth).getFullYear()) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
+                    return "translate("+((dateOnlyYear(d.date_birth) - startDate) * xScale + 50)+","+(Math.random() * (2*browserHeight-40 - 30) + 30)+")";
                   })
                   .call(drag);
 /*
@@ -210,7 +218,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
                                         .attr('id', "clipMask")
                                         // use the rectangle to specify the clip path itself
                                         .append('rect')
-                                          .attr("x", function(d) { return d.weight * -2 + baseCircleRadius; })
+                                          .attr("x", function(d) { return d.weight * -2 - baseCircleRadius; })
                                           .attr("y", 10)
                                           .attr("width", function(d) { return (d.weight * 2 + baseCircleRadius)*2; })
                                           .attr("height", function(d) { return d.weight * 2 + baseCircleRadius; });
@@ -234,7 +242,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   force.on("tick", function() {
     nodes.forEach (function(d,i) {
       //d.x = i * 15;
-      d.x = xscale(dateOnlyYear(new Date(d.date_birth)));
+      d.x = xscale(dateOnlyYear(d.date_birth));
     })
 
     // update the connection lines
@@ -263,7 +271,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // ---------------------------------------------------------------------------
   // handling the node+edge highlight for mouse events
   nodeBlock.on("mouseover", function(d){
-      node.select("circle").classed("node-active", function(o) {
+      node.classed("node-active", function(o) {
           thisOpacity = isConnected(d, o) ? true : false;
           this.setAttribute('fill-opacity', thisOpacity);
           return thisOpacity;
@@ -296,7 +304,8 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
           d3.select(this).style("opacity", "1")
-          return connectionPopover.style("visibility", "visible").select(".role").html(edges.type_id);
+          var edgeType = edgeTypesData.types[d.type - 1];
+          return connectionPopover.style("visibility", "visible").select(".role").html('<h4>' + edgeType.title + '</h4><p>' + edgeType.description + '</p>');
       })
       .on("mousemove", function () {
           return connectionPopover
@@ -309,7 +318,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("click", function (d) {
         if (d3.event.defaultPrevented) return;
-        return window.open(d.Quelle);
+        return window.open(d.edge_src);
       });
 
 
@@ -321,9 +330,10 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   d3.selectAll("g.node")
       .on("mouseover", function (d) {
           tooltip.style("visibility", "visible")
+          tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html("geb. " + dateformat(new Date(d.date_birth)))
-          tooltip.select(".day-of-death").html("gest. " + dateformat(new Date(d.date_death)))
+          tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
+          tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
           return d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth+2);
       })
       .on("mousemove", function () {
@@ -346,8 +356,9 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
         infoDropdown.select(".pseudonym").html(d.pseudonym)
         infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
         infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
+        infoDropdown.select(".source").html(d.source).attr("href", d.source)
 
-        infoDropdown.select(".vitaText").html(d.vita)
+        infoDropdown.select(".vitaText").html(d.vita_html)
 
         if (d3.event.defaultPrevented) return;
         return infoDropdown.classed("hideInfoDropdown", false).classed("showInfoDropdown", true);
