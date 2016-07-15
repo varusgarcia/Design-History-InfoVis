@@ -150,21 +150,21 @@ div.tooltip img {
   object-fit: cover;
 }
 
-div.tooltip .text {
+div.tooltip .text, div.connectionPopover .text {
     display: inline-block;
 }
 
-div.tooltip .name {
+div.tooltip .name, div.connectionPopover .role {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-div.tooltip .birthday, div.tooltip .day-of-death {
+div.tooltip .birthday, div.tooltip .day-of-death, div.connectionPopover .description {
   font-size: 14px;
 }
 
-div.tooltip .hint {
+div.tooltip .hint, div.connectionPopover .hint {
   font-size: 12px;
   font-style: italic;
   color: rgb(0, 114, 156);
