@@ -18,7 +18,7 @@ var dateOnlyYear = function(date) {
 
 // -----------------------------------------------------------------------------
 // create an object
-var panExtent = {x: [new Date(startDate, 0, 1), new Date(2016, 0, 1)], y: [0,400] };
+var panExtent = {x: [new Date(startDate, 0, 1), new Date(2016, 0, 1)], y: [0, 400] };
 
 // create the Scale we will use for the xAxis
 var yearsAxisScale = d3.time.scale()
@@ -27,12 +27,12 @@ var yearsAxisScale = d3.time.scale()
 
 // creating the scale for the x-Achsis
 var dom = [startDate, 2016];
-var xscale = d3.scale.linear().domain(dom).range([0, browserWidth * 10]);
+var xscale = d3.scale.linear().domain(dom).range([0, browserWidth * 20]);
 
 // create the Scale we will use for the yAxis
 var yAxisScale = d3.scale.linear()
-                  .domain([0,200])
-                  .range([browserHeight-130,0]);
+                  .domain([0, 200])
+                  .range([browserHeight - 130, 0]);
 
 // create the xAxis
 var yearsAxis = d3.svg.axis()
@@ -51,8 +51,8 @@ var yAxis = d3.svg.axis()
 // -----------------------------------------------------------------------------
 // IMPLEMENTING THE FORCE LAYOUT
 var force = d3.layout.force()
-          .charge(function (d) {return d.weight * -1000})
-          .linkDistance(100)
+          .charge(function (d) {return d.weight * -2500})
+          .linkDistance(1500)
           .size([browserHeight, browserWidth]);
 
 // implementing the drag behavior for the nodes
@@ -169,7 +169,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .insert("line", ":first-child")
                 .attr('class', 'connection')
                 .attr("stroke", "rgba(255,255,255,.2)")
-                .style("stroke-width", function(d) { return d.weight * .2; }); // set stroke-width based on connection type
+                .style("stroke-width", function(d) { return d.weight * 1.8; }); // set stroke-width based on connection type
 
 
 
@@ -301,8 +301,12 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
           tooltip.style("visibility", "visible")
           tooltip.select(".image").attr("src", d.image_path)
           tooltip.select(".name").html(d.name + "&nbsp;" + d.surname)
-          tooltip.select(".birthday").html(dateOnlyYear(d.date_birth))
-          tooltip.select(".day-of-death").html(dateOnlyYear(d.date_death))
+          tooltip.select(".birthday").html('* ' + dateOnlyYear(d.date_birth))
+          if(d.date_death) {
+            tooltip.select(".day-of-death").html(' - &dagger; ' + dateOnlyYear(d.date_death))
+          } else {
+            tooltip.select(".day-of-death").html('')
+          }
           //nodeBlock.style("opacity", .2)
 
           // change attributes for connected lines to selected node
@@ -365,7 +369,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
           target_node = [];
 
-                //link.style("stroke-width", function(d) { return d.weight * 1; });
+          //link.style("stroke-width", function(d) { return d.weight * 1; });
 
           // change style for highlighted node
           d3.select(this).select("circle")
@@ -381,7 +385,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
-        link.style("stroke-width", function(d) { return d.weight * .2; })
+        link.style("stroke-width", function(d) { return d.weight * 1.8; })
         link.style('stroke', "rgba(255,255,255,.2)");
 
         node.attr('r', function(n) {
@@ -406,14 +410,50 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
         // applying all the data to the info dropdown
         infoDropdown.select(".image").attr("src", d.image_path)
         infoDropdown.select(".name").html(d.name + "&nbsp;" + d.surname)
+
+        // list all institutions
+        // TODO: render tree list ... recursive? :/
+        infoDropdown.select(".institutions").html(function() {
+          if(d.tags.length >= 1) {
+            return d.tags.map(function(tags) {
+              return '<li class="institution smallText">' + tags.title + '</li>';
+            }).join('')
+          } else {
+            infoDropdown.select(".institutions-wrapper").remove()
+          }
+        })
+
+        infoDropdown.select(".connections").html(function() {
+          if(d.edges.length >= 1) {
+            return d.edges.map(function(edge) {
+              var node = nodesData.nodes.filter(function(node) {
+                return node.id === edge.node_id
+              })[0]
+              var type = edgeTypesData.types.filter(function(type) {
+                return type.id === edge.type_id
+              })[0]
+              return '<li>' + node.name + ' ' + node.surname + ' (' + type.title + ')</li>'
+            }).join('')
+          } else {
+
+          }
+
+        })
+
         infoDropdown.select(".birthname").html(function() {
           if ( d.name_birth == 0) { return ""; }
           else {  return "geb. " + d.name_birth;  }
         })
         infoDropdown.select(".pseudonym").html(d.pseudonym)
         infoDropdown.select(".birthday").html("* " + dateformat(new Date(d.date_birth)))
-        infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
-        infoDropdown.select(".source").html(d.source).attr("href", d.source)
+
+        if(d.date_death) {
+            infoDropdown.select(".day-of-death").html("&dagger; " + dateformat(new Date(d.date_death)))
+        } else {
+          infoDropdown.select(".day-of-death").remove()
+        }
+
+        infoDropdown.select(".source").html(d.source_html)
 
         infoDropdown.select(".vitaText").html(d.vita_html)
 
@@ -434,19 +474,15 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 // HANDLE THE DRAG BEHAVIOR
 function dragstarted(d) {
   d3.event.sourceEvent.stopPropagation();
-
   d3.select(this).classed("dragging", true);
   force.start();
 }
 
 function dragged(d) {
-
   d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-
 }
 
 function dragended(d) {
-
   d3.select(this).classed("dragging", false);
 }
 

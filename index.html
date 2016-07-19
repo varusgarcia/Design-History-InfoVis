@@ -11,9 +11,14 @@
 
 <body>
   <nav>
-    <div id="headline"><img id="headline-logo" src="images/fhp-logo_mini.png"/>FH Potsdam - Design Geschichte InfoVis [BETA v0.3]</div>
+    <div id="headline">
+      <a href="index.html">
+        <img id="headline-logo" src="images/fhp-logo_mini.png"/> FH Potsdam - Design Geschichte InfoVis [BETA v0.5]
+      </a>
+    </div>
+    <a href="usage.html">Bedienung</a>
     <a href="about.html">Über das Projekt</a>
-    <a href="https://github.com/varusgarcia/Design-History-InfoVis/issues" target="_blank">Fehler melden</a>
+    <a href="feedback.html">Anregung und Teilhabe</a>
   </nav>
 
   <div id="loading-screen">
@@ -36,15 +41,15 @@
           <span class="birthday smallText">* [Geburtsdatum]</span><br>
           <span class="day-of-death smallText">&dagger; [Sterbedatum]</span>
         </p>
-        <p>
+        <p class="institutions-wrapper">
           <span class="subtitle">Institutionen:</span><br>
-          <span class="institution smallText">[Institution 1]</span><br>
-          <span class="institution smallText">[Institution 2]</span><br>
-          <span class="institution smallText">[Institution 3]</span>
+          <ul class="institutions"></ul>
         </p>
         <p>
           <span class="subtitle">Quelle:</span><br>
-          <span class="smallText"><a class="source" href="" target="_blank">[URL zur Quelle]</a></span>
+          <span class="smallText">
+            <div class="source">[URL zur Quelle]</div>
+          </span>
         </p>
     </div>
 
@@ -59,6 +64,7 @@
 
     <div class="column">
         <div class="titleVerbindugen">Verbindungen</div>
+        <ul class="connections"></ul>
     </div>
   </div>
 
@@ -68,7 +74,7 @@
     <div class="text">
       <div class="name">Name Nachname</div>
       <div>
-        <span class="birthday">Geburtsjahr</span> - <span class="day-of-death">Todesjahr</span>
+        <span class="birthday">Geburtsjahr</span><span class="day-of-death">- Todesjahr</span>
       </div>
       <div class="hint">Klicken für mehr Informationen!</div>
     </div>

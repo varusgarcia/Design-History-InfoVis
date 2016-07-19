@@ -28,13 +28,16 @@ nav #headline-logo {
   height: 20px;
 }
 
-nav #headline {
+nav #headline > a {
   display: inline-block;
   margin: 20px 0px 0px 20px;
   font-size: 18px;
   font-style: normal;
   font-weight: bold;
   color: white;
+  float: left;
+  padding: 0;
+  background: transparent;
 }
 
 nav a {
@@ -47,7 +50,8 @@ nav a {
   cursor: pointer;
 }
 
-nav a:hover {
+nav a:hover,
+nav > a.active {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   animation: showInfoDropdown 2s ease-out;
@@ -195,6 +199,9 @@ div.infoDropdown {
   height: 100%;
   color: white;
   float: left;
+  overflow: scroll;
+  padding: 20px 40px;
+  box-sizing: border-box;
 }
 
 .infoDropdown .dividingLines {
@@ -219,19 +226,16 @@ div.infoDropdown {
 .infoDropdown .name {
   font-size: 35px;
   text-align: left;
-  margin-left: 80px;
 }
 
 .infoDropdown .birthname {
   font-size: 25px;
   text-align: left;
-  margin-left: 80px;
 }
 
 .infoDropdown .pseudonym {
   font-size: 18px;
   text-align: left;
-  margin-left: 80px;
 }
 
 .infoDropdown .birthday {
@@ -243,23 +247,20 @@ div.infoDropdown {
 }
 
 .infoDropdown p {
-  margin: 15px 80px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   opacity: 0.8;
 }
 
 .infoDropdown .title {
   font-size: 35px;
   text-align: left;
-  margin-left: 80px;
   margin-top: 80px;
 }
 
 .infoDropdown .vitaText {
   font-size: 16px;
-  margin: 5px 80px;
-  margin-top: 60px;
-  height: 65%;
-  overflow-y: auto;
+  margin: 5px 0;
   opacity: 0.8;
 }
 
@@ -271,7 +272,6 @@ div.infoDropdown {
 .infoDropdown .titleVerbindugen {
   font-size: 35px;
   text-align: left;
-  margin-left: 80px;
   margin-top: 80px;
 
 }
@@ -308,4 +308,32 @@ div.infoDropdown {
 }
 .subtitle{
   font-weight: bold;
+}
+
+.institutions {
+  margin: 15px 0;
+  opacity: 0.8;
+  padding: 0;
+}
+
+.vitaText ul, .source ul {
+  padding: 0;
+}
+
+
+.infoDropdown.showInfoDropdown:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 100px;
+  background: linear-gradient(to top, rgba(0, 0, 0, .5) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.connections {
+  padding: 0;
+  opacity: .8;
 }
