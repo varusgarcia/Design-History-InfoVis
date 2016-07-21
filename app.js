@@ -270,7 +270,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
-          //d3.select(this).style("opacity", "1")
+          d3.select(this).style("stroke", "#ff7f18")
           var edgeType = edgeTypesData.types[d.type - 1];
           return connectionPopover.style("visibility", "visible").select(".head").html("<div class=\"role\">" + edgeType.title + "</div><div class=\"description\">" + edgeType.description + "</div>");
       })
@@ -280,7 +280,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .style("left", (d3.event.pageX + 16) + "px");
       })
       .on("mouseout", function () {
-        //d3.select(this).style("opacity", "0.2")
+        d3.select(this).style("stroke", "rgba(255,255,255,.2)")
         return connectionPopover.style("visibility", "hidden");
       })
       .on("click", function (d) {
