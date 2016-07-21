@@ -156,7 +156,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // Define the data for the node groups
   var contentGroup = svg.append("g")
                       .attr('class', 'contentGroup')
-                      .attr('transform', 'scale(.2)');
+                      .attr('transform', 'translate(-' + browserWidth + ',0) scale(.2)');
 
   // ---------------------------------------------------------------------------
   // NODE EDGES/CONNECTIONS
@@ -516,7 +516,7 @@ function transform(d) {
   */
 
   var scaleText = "scale(" + scale + ")";
-  return "translate(" + translate + ")" + " " + scaleText;
+  return "translate(" + (d3.event.translate[0]-browserWidth) + "," + d3.event.translate[1] + ")" + " " + scaleText;
 }
 
 function panLimit() {
