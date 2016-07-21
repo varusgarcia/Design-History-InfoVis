@@ -200,7 +200,7 @@ div.infoDropdown {
   color: white;
   float: left;
   overflow: scroll;
-  padding: 20px 40px;
+  padding: 20px 40px 100px 40px;
   box-sizing: border-box;
 }
 
