@@ -5,6 +5,7 @@ var startDate = 1860;
 var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
+var connectionWidthFactor = 2;
 var dateformat = d3.time.format("%d. %B %Y");
 var dateOnlyYear = function(date) {
   var year = d3.time.format("%Y");
@@ -72,7 +73,7 @@ var zoom = d3.behavior.zoom()
     .x(yearsAxisScale)
     .y(yAxisScale)
     .scale(baseScale)
-    .scaleExtent([10, 50])
+    .scaleExtent([6, 60])
     .on("zoom", zoomed);
 
 // -----------------------------------------------------------------------------
@@ -165,7 +166,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .insert("line", ":first-child")
                 .attr('class', 'connection')
                 .attr("stroke", "rgba(255,255,255,.2)")
-                .style("stroke-width", function(d) { return d.weight * 1.8; }); // set stroke-width based on connection type
+                .style("stroke-width", function(d) { return d.weight * connectionWidthFactor; }); // set stroke-width based on connection type
 
 
 
@@ -309,7 +310,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
           link.style('stroke-width', function(l) {
             if (d === l.source || d === l.target)
-              return 9;
+              return l.weight * (connectionWidthFactor+1);
             else
               return 1;
           });
@@ -381,7 +382,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
-        link.style("stroke-width", function(d) { return d.weight * 1.8; })
+        link.style("stroke-width", function(d) { return d.weight * connectionWidthFactor; })
         link.style('stroke', "rgba(255,255,255,.2)");
 
         node.attr('r', function(n) {
