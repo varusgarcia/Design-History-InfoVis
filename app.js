@@ -1,7 +1,7 @@
 var apiUrl = 'http://designgeschichte.fh-potsdam.de/';
 var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-var startDate = 1800;
+var startDate = 1860;
 var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
@@ -82,12 +82,8 @@ var svg = d3.select("body")
               .attr("id", "chartSVG")
               .attr("width", browserWidth)
               .attr("height", browserHeight)
-              .append("g")
               .call(zoom);
 
-              svg.append("rect")
-                  .attr("width", browserWidth)
-                  .attr("height", browserHeight);
 
 // create a group Element for the xAxis elements and call the xAxis function
 /*var yearsAxisGroup = svg.append("g")
@@ -156,7 +152,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
   // Define the data for the node groups
   var contentGroup = svg.append("g")
                       .attr('class', 'contentGroup')
-                      .attr('transform', 'translate(-' + browserWidth + ',0) scale(.2)');
+                      .attr('transform', 'scale(.2)');
 
   // ---------------------------------------------------------------------------
   // NODE EDGES/CONNECTIONS
@@ -516,7 +512,7 @@ function transform(d) {
   */
 
   var scaleText = "scale(" + scale + ")";
-  return "translate(" + (d3.event.translate[0]-browserWidth) + "," + d3.event.translate[1] + ")" + " " + scaleText;
+  return "translate(" + translate + ")" + " " + scaleText;
 }
 
 function panLimit() {
