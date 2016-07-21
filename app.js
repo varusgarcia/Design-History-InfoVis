@@ -1,10 +1,11 @@
 var apiUrl = 'http://designgeschichte.fh-potsdam.de/';
 var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 var browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-var startDate = 1800;
+var startDate = 1860;
 var xScale = 30;
 var baseCircleRadius = 10;
 var circleStrokeWidth = 3;
+var connectionWidthFactor = 2;
 var dateformat = d3.time.format("%d. %B %Y");
 var dateOnlyYear = function(date) {
   var year = d3.time.format("%Y");
@@ -72,7 +73,7 @@ var zoom = d3.behavior.zoom()
     .x(yearsAxisScale)
     .y(yAxisScale)
     .scale(baseScale)
-    .scaleExtent([10, 50])
+    .scaleExtent([6, 60])
     .on("zoom", zoomed);
 
 // -----------------------------------------------------------------------------
@@ -82,20 +83,16 @@ var svg = d3.select("body")
               .attr("id", "chartSVG")
               .attr("width", browserWidth)
               .attr("height", browserHeight)
-              .append("g")
               .call(zoom);
 
-              svg.append("rect")
-                  .attr("width", browserWidth)
-                  .attr("height", browserHeight);
 
 // create a group Element for the xAxis elements and call the xAxis function
-var yearsAxisGroup = svg.append("g")
+/*var yearsAxisGroup = svg.append("g")
                   .attr('class', 'yearsAxis')
                   .attr("transform", "translate(40,"+(browserHeight-50)+")")
                   .call(yearsAxis)
                   .selectAll("line")
-                    .attr('class', 'tickLines');
+                    .attr('class', 'tickLines');*/
 
 
 // -----------------------------------------------------------------------------
@@ -169,7 +166,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .insert("line", ":first-child")
                 .attr('class', 'connection')
                 .attr("stroke", "rgba(255,255,255,.2)")
-                .style("stroke-width", function(d) { return d.weight * 1.8; }); // set stroke-width based on connection type
+                .style("stroke-width", function(d) { return d.weight * connectionWidthFactor; }); // set stroke-width based on connection type
 
 
 
@@ -270,7 +267,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
   d3.selectAll("line.connection")
       .on("mouseover", function (d) {
-          //d3.select(this).style("opacity", "1")
+          d3.select(this).style("stroke", "#ff7f18")
           var edgeType = edgeTypesData.types[d.type - 1];
           return connectionPopover.style("visibility", "visible").select(".head").html("<div class=\"role\">" + edgeType.title + "</div><div class=\"description\">" + edgeType.description + "</div>");
       })
@@ -280,7 +277,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
               .style("left", (d3.event.pageX + 16) + "px");
       })
       .on("mouseout", function () {
-        //d3.select(this).style("opacity", "0.2")
+        d3.select(this).style("stroke", "rgba(255,255,255,.2)")
         return connectionPopover.style("visibility", "hidden");
       })
       .on("click", function (d) {
@@ -313,7 +310,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
 
           link.style('stroke-width', function(l) {
             if (d === l.source || d === l.target)
-              return 9;
+              return l.weight * (connectionWidthFactor+1);
             else
               return 1;
           });
@@ -385,7 +382,7 @@ function makeLayout(error, nodesData, edgesData, edgeTypesData) {
       })
       .on("mouseout", function () {
         d3.select(this).select("circle").attr("stroke-width", circleStrokeWidth)
-        link.style("stroke-width", function(d) { return d.weight * 1.8; })
+        link.style("stroke-width", function(d) { return d.weight * connectionWidthFactor; })
         link.style('stroke', "rgba(255,255,255,.2)");
 
         node.attr('r', function(n) {
