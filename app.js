@@ -90,12 +90,12 @@ var svg = d3.select("body")
                   .attr("height", browserHeight);
 
 // create a group Element for the xAxis elements and call the xAxis function
-var yearsAxisGroup = svg.append("g")
+/*var yearsAxisGroup = svg.append("g")
                   .attr('class', 'yearsAxis')
                   .attr("transform", "translate(40,"+(browserHeight-50)+")")
                   .call(yearsAxis)
                   .selectAll("line")
-                    .attr('class', 'tickLines');
+                    .attr('class', 'tickLines');*/
 
 
 // -----------------------------------------------------------------------------

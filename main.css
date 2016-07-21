@@ -329,7 +329,7 @@ div.infoDropdown {
   left: 0px;
   right: 0px;
   height: 100px;
-  background: linear-gradient(to top, rgba(0, 0, 0, .5) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to top, rgba(42, 44, 46, 1) 0%, rgba(42, 44, 46, 0.0) 100%);
   pointer-events: none;
 }
 
