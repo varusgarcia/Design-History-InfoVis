@@ -4,7 +4,7 @@ This project was created in the winter semester 2015/16 at the [FH Potsdam](http
 
 The students researched vita and social connections from people, wich were roughly active between 1930 and 1980, connected to the german society and had their field of activity in product design (incl. fashion, porcelain, furniture, etc.) or graphic design (incl. photo, movie, etc.). This visualization is created based on this database. The goal is to show the designer history as a social network.
 
-==**Project website: [designgeschichte.fh-potsdam.de](http://designgeschichte.fh-potsdam.de)**==
+**Project website: [designgeschichte.fh-potsdam.de](http://designgeschichte.fh-potsdam.de)**
 
 ##Design and Development
 
